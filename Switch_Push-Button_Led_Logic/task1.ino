@@ -243,9 +243,9 @@ void sw4int() {
 void BlinkLed (int led, int interval, int array){   
   
   //(long) can be omitted if you dont plan to blink led for very long time I think
-   if (((long)micros() - previousMillis[array]) >= interval){ 
+   if (((long)millis() - previousMillis[array]) >= interval){ 
    
-    previousMillis[array]= micros(); //stores the millis value in the selected array
+    previousMillis[array]= millis(); //stores the millis value in the selected array
    
     digitalWrite(led, !digitalRead(led)); //changes led state
   }
