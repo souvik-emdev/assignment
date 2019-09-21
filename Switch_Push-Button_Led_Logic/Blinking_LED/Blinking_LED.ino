@@ -2,40 +2,36 @@
 #define led4 4
 #define led5 14
 #define led6 16
-#define sw3 2
-#define sw4 12
-#define sw7 13
-#define sw8 15
+#define sw3 2 //pushbutton
+#define sw4 12 //pushbutton
+#define sw7 13 //switch
+#define sw8 15 //switch
 
-long debouncing_time = 50;
-//volatile unsigned long last_microssw7;
-//volatile unsigned long last_microssw8;
+long debouncing_time = 50; // push button stabilizing
 volatile unsigned long last_microssw3;
 volatile unsigned long last_microssw4;
 volatile unsigned long holdtime;
-volatile int holdcheck = false;
+volatile bool holdcheck = false;
 
 unsigned long previousMillis[4];
 
-volatile int sw7state = LOW;
-volatile int sw8state = LOW;
-volatile int sw3state = LOW;
-volatile int sw4state = LOW;
+volatile bool sw7state = LOW;
+volatile bool sw8state = LOW;
+volatile bool sw3state = LOW;
+volatile bool sw4state = LOW;
 
-volatile int config1 = 0;
-volatile int config2 = 0;
-volatile int config3 = 0;
-volatile int config4 = 0;
+volatile uint8 config1 = 0;
+volatile uint8 config2 = 0;
+volatile uint8 config3 = 0;
+volatile uint8 config4 = 0;
 
-int cse;
+uint8 cse;
 
 void setup() {
-  // put your setup code here, to run once:
 pinMode(led3, OUTPUT);
 pinMode(led4, OUTPUT);
 pinMode(led5, OUTPUT);
 pinMode(led6, OUTPUT);
-//digitalWrite(led6, LOW);
 attachInterrupt(digitalPinToInterrupt(sw7), sw7int, CHANGE);
 attachInterrupt(digitalPinToInterrupt(sw8), sw8int, CHANGE);
 attachInterrupt(digitalPinToInterrupt(sw3), sw3int, CHANGE);
@@ -182,19 +178,11 @@ if (cse == 4) {
 
 ICACHE_RAM_ATTR
 void sw7int() {
-    //if((long)(micros() - last_microssw7) >= debouncing_time * 1000) {
-    sw7state = digitalRead(sw7);
-    //last_microssw7 = micros(); 
-    //}
-    
+    sw7state = digitalRead(sw7);   
 }
 
 void sw8int() {
-    //if((long)(micros() - last_microssw8) >= debouncing_time * 1000) {
-    sw8state = digitalRead(sw8);
-    //last_microssw8 = micros(); 
-    //}
-    
+    sw8state = digitalRead(sw8);    
 }
 
 void sw3int() {
