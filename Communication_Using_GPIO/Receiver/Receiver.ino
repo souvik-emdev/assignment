@@ -9,10 +9,6 @@ bool previous_clk = LOW;
 String receive_buffer;
 uint8 pointer = 0;
 uint8 bytes[8];
-//String led1state;
-//String led2state;
-//String led3state;
-//String led4state;
 bool flag;
 char led_no;
 char led_state;
@@ -58,14 +54,6 @@ while (digitalRead(send_enable) == HIGH) {
  pointer = 0;
  if (flag) { 
  Serial.println(receive_buffer);
-// led1state = receive_buffer.charAt(2);
-// led2state = receive_buffer.charAt(6);
-// led3state = receive_buffer.charAt(10);
-// led4state = receive_buffer.charAt(14);
-// digitalWrite(led1, led1state.toInt());
-// digitalWrite(led2, led2state.toInt());
-// digitalWrite(led3, led3state.toInt());
-// digitalWrite(led4, led4state.toInt());
 
  for (int k=0; k<(receive_buffer.length()); k++){
   if ((k == 0) || (k == 4) || (k == 8) || (k == 12)){
