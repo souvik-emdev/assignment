@@ -144,9 +144,9 @@ for(int i=0; i<myText.length(); i++){
       
       digitalWrite(data, bitRead(myChar, i));
       digitalWrite(clk, HIGH); 
-      delayMicroseconds(50);
+      delayMicroseconds(35);
       digitalWrite(clk, LOW);
-      delayMicroseconds(50); 
+      delayMicroseconds(35); 
       //Serial.print(bitRead(myChar, i));
       }
   }
