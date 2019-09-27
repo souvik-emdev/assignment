@@ -16,9 +16,10 @@ const int led = 5;
 
 void handleRoot() {
   digitalWrite(led, 1);
-  transmit("test");
-  //receive_buffer = (_receive, 70);
-  server.send(200, "text/plain", "transmitted");
+  Serial.println(server.arg(0));
+  transmit(server.arg(0));
+  receive_buffer = receiver();
+  server.send(200, "text/plain", receive_buffer);
   digitalWrite(led, 0);
 }
 
@@ -55,7 +56,6 @@ void handleNotFound() {
 
 void setup(void) {
   pinMode(led, OUTPUT);
-  pinMode(clk, OUTPUT);
   pinMode(data_direction, OUTPUT);
   digitalWrite(led, 0);
   Serial.begin(115200);
@@ -92,12 +92,50 @@ void setup(void) {
   Serial.println("HTTP server started");
 }
 
+String receiver(){
+pinMode(data, INPUT);
+pinMode(data_direction, INPUT);
+pinMode(clk, INPUT);
+receive_buffer = "";
+bool previous_clk = LOW;
+uint8 pointer = 0;
+uint8 bytes[8];
+delay(1);
+while (digitalRead(data_direction) == HIGH) {
+//  flag = true; 
+  if (digitalRead(clk) == LOW){
+    previous_clk = LOW;
+    }
+  if ((digitalRead(clk) == HIGH) && (previous_clk == LOW)){
+        bytes[pointer] = digitalRead(data);
+        uint8 temp;
+        if (pointer == 7){
+        pointer = -1;
+        temp = 0;
+        for (int j = 0; j < 8; j++) {
+           uint8 bitshiftedVal = (bytes[j] << (7-j));
+           temp |= bitshiftedVal;           
+             }              
+         receive_buffer.concat(char(temp));
+           //or Serial.print(char(temp))
+         //Serial.println("receiver hit");   
+          } 
+       pointer = pointer+1;
+       previous_clk = HIGH; 
+       //delayMicroseconds(3);   
+       }
+    }
+return receive_buffer;    
+}
+
 void loop(void) {
   server.handleClient();
 }
 
 void transmit(String myText){
 pinMode(data, OUTPUT);
+pinMode(clk, OUTPUT);
+pinMode(data_direction, OUTPUT);
 digitalWrite(data_direction, HIGH);
 for(int i=0; i<myText.length(); i++){
    char myChar = myText.charAt(i);
@@ -114,30 +152,5 @@ for(int i=0; i<myText.length(); i++){
   }
 //receive_buffer = "";
 digitalWrite(data_direction, LOW);
-}
-
-String _receive(int expected){
-  receive_buffer = "";
-  uint8 pointer = 0;
-  uint8 temp;
-  uint8 bytes[8];
-  pinMode(data, INPUT);
-  digitalWrite(data_direction, LOW);
-  for (int j=0; j<=expected; j++){
-    digitalWrite(clk, HIGH);
-    delayMicroseconds(10);
-    bytes[pointer] = digitalRead(data);
-    if (pointer == 7) {
-          pointer = -1;
-          temp = 0;
-          for (int k = 0; k < 8; k++) {
-            uint8 bitshiftedVal = (bytes[j] << (7-j));
-            temp |= bitshiftedVal;           
-              } 
-          receive_buffer.concat(char(temp));   
-            }
-    pointer = pointer+1;
-    digitalWrite(clk, LOW);   
-    }
-  return receive_buffer;
+pinMode(data_direction, INPUT);
 }
