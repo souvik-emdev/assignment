@@ -16,8 +16,9 @@ const int led = 5;
 
 void handleRoot() {
   digitalWrite(led, 1);
-  Serial.println(server.arg(0));
+  
   transmit(server.arg(0));
+  Serial.println(server.arg(0));
   receive_buffer = receiver();
   server.send(200, "text/plain", receive_buffer);
   digitalWrite(led, 0);
@@ -93,6 +94,7 @@ void setup(void) {
 }
 
 String receiver(){
+bool flag = false;
 pinMode(data, INPUT);
 pinMode(data_direction, INPUT);
 pinMode(clk, INPUT);
@@ -100,9 +102,9 @@ receive_buffer = "";
 bool previous_clk = LOW;
 uint8 pointer = 0;
 uint8 bytes[8];
-delay(1);
+while(flag != true){
 while (digitalRead(data_direction) == HIGH) {
-//  flag = true; 
+  flag = true; 
   if (digitalRead(clk) == LOW){
     previous_clk = LOW;
     }
@@ -125,6 +127,7 @@ while (digitalRead(data_direction) == HIGH) {
        //delayMicroseconds(3);   
        }
     }
+}
 return receive_buffer;    
 }
 
@@ -137,6 +140,7 @@ pinMode(data, OUTPUT);
 pinMode(clk, OUTPUT);
 pinMode(data_direction, OUTPUT);
 digitalWrite(data_direction, HIGH);
+delay(3);
 for(int i=0; i<myText.length(); i++){
    char myChar = myText.charAt(i);
  
@@ -144,9 +148,9 @@ for(int i=0; i<myText.length(); i++){
       
       digitalWrite(data, bitRead(myChar, i));
       digitalWrite(clk, HIGH); 
-      delayMicroseconds(35);
+      delayMicroseconds(50);
       digitalWrite(clk, LOW);
-      delayMicroseconds(35); 
+      delayMicroseconds(50); 
       //Serial.print(bitRead(myChar, i));
       }
   }
