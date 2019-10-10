@@ -44,9 +44,7 @@ String eepromread(int address){
 /////////////////////////////////////////////////////////////
 
 void _receive(){
-pinMode(data, INPUT);
-pinMode(data_direction, INPUT);
-pinMode(clk, INPUT);
+
 receive_buffer = "";
 bool previous_clk = LOW;
 int pointer = 0;
@@ -84,11 +82,12 @@ while (digitalRead(data_direction) == HIGH) {
 /////////////////////////////////////////////////////////////
 
 void transmit(String myText){
+//delay(1);
 pinMode(data, OUTPUT);
 pinMode(clk, OUTPUT);
 pinMode(data_direction, OUTPUT);
+
 digitalWrite(data_direction, HIGH);
-//delay(1);
 for(int i=0; i<myText.length(); i++){
    char myChar = myText.charAt(i);
  
@@ -104,6 +103,8 @@ for(int i=0; i<myText.length(); i++){
   }
 digitalWrite(data_direction, LOW);
 pinMode(data_direction, INPUT);
+pinMode(data, INPUT);
+pinMode(clk, INPUT);
 }
 /////////////////////////////////////////////////////////////////
 
@@ -157,9 +158,11 @@ String Info(String scninfo){
       eeAddress += 71;      
       } 
     }
-   if (match > 9)
+  else if (match > 9)
    transmit("Sceane name not found");
+   else transmit(match);
   }
+  
 
 //////////////////////////////////////////////////////////////
 //Sceane add function
@@ -322,20 +325,23 @@ void parse_data(char received[]){
     if (function == "Sadd"){
       Sadd(RestData);     
       }
-    if (function == "Info"){
+    else if (function == "Info"){
+      Serial.println("Info running");
       namecheck(RestData);
-      transmit(Info(RestData));
+      String scninfo96 = Info(RestData);
+      transmit(scninfo96);
+      Serial.println(scninfo96);
       }
-    if (function == "Del"){
+    else if (function == "Del"){
       namecheck(RestData);
       Del(RestData);
       }
-    if (function == "FindDev"){
+    else if (function == "FindDev"){
       namecheck(RestData);
       String scninfo35 = Info(RestData);
       FindDev(RestData, scninfo35);     
       }
-    if (function == "FindDevInfo"){
+    else if (function == "FindDevInfo"){
       namecheck(RestData);
       String scninfo36 = Info(RestData);
       FindDevInfo(RestData, scninfo36);
@@ -367,10 +373,10 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 if (digitalRead(data_direction) == HIGH){
+  Serial.println("Reading");
   _receive();
   receive_buffer.toCharArray(received_data, 75);
   parse_data(received_data);
-  //delay(50);
-   
+  //delay(50);   
   } 
 }

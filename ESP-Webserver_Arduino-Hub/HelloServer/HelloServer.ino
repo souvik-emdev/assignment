@@ -13,13 +13,16 @@ const char* password = "quicksilver";
 ESP8266WebServer server(80);
 
 const int led = 5;
+const int led2 = 4;
 
 void handleRoot() {
   digitalWrite(led, 1);
   
   transmit(server.arg(0));
-  Serial.println(server.arg(0));
+  digitalWrite(led2, 1);
+  //Serial.println(server.arg(0));
   receive_buffer = receiver();
+  digitalWrite(led2, 0);
   server.send(200, "text/plain", receive_buffer);
   digitalWrite(led, 0);
 }
@@ -57,8 +60,10 @@ void handleNotFound() {
 
 void setup(void) {
   pinMode(led, OUTPUT);
+  pinMode(led2, OUTPUT);
   pinMode(data_direction, OUTPUT);
   digitalWrite(led, 0);
+  digitalWrite(led2, 0);
   Serial.begin(115200);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
@@ -95,9 +100,9 @@ void setup(void) {
 
 String receiver(){
 bool flag = false;
-pinMode(data, INPUT);
-pinMode(data_direction, INPUT);
-pinMode(clk, INPUT);
+//pinMode(data, INPUT);
+//pinMode(data_direction, INPUT);
+//pinMode(clk, INPUT);
 receive_buffer = "";
 bool previous_clk = LOW;
 uint8 pointer = 0;
@@ -140,7 +145,7 @@ pinMode(data, OUTPUT);
 pinMode(clk, OUTPUT);
 pinMode(data_direction, OUTPUT);
 digitalWrite(data_direction, HIGH);
-delay(3);
+delay(1);
 for(int i=0; i<myText.length(); i++){
    char myChar = myText.charAt(i);
  
@@ -148,13 +153,16 @@ for(int i=0; i<myText.length(); i++){
       
       digitalWrite(data, bitRead(myChar, i));
       digitalWrite(clk, HIGH); 
-      delayMicroseconds(50);
+      delayMicroseconds(40);
       digitalWrite(clk, LOW);
-      delayMicroseconds(50); 
+      delayMicroseconds(40); 
       //Serial.print(bitRead(myChar, i));
       }
   }
 //receive_buffer = "";
 digitalWrite(data_direction, LOW);
 pinMode(data_direction, INPUT);
+pinMode(data, INPUT);
+pinMode(data_direction, INPUT);
+pinMode(clk, INPUT);
 }
