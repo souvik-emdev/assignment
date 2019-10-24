@@ -1,0 +1,1 @@
+What was the goal of this code is given in the word file attached.
