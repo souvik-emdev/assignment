@@ -1,6 +1,7 @@
 /* Remote name: Mitsubishi AC
  *  Format LSB8 to MSB
  */
+#define ir_pin 8
 //////////////////////////Setup////////////////////////////////
 
 //Mode: Fan=1, Cool=2, Heat=3, Humidity=4, Off=5
@@ -139,10 +140,55 @@ void print_ir_out2(){
   Serial.println("");
 }
 
+
+void transmit(){
+  startbit();
+  bool bitvalue = 0;
+  //Serial.println("bitvalue");
+  for (int i=0; i<11; i++){
+    for (int j=7; j>=0; j--){
+      bitvalue = bitRead(ir_out2[i], j);
+      //Serial.print(bitvalue); 
+      if(bitvalue){tx1();}
+      else {tx0();}     
+    }
+    //Serial.print(" ");
+  }
+  stopbit();
+}
+
+void tx1(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(394);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(1180);  
+}
+
+void tx0(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(406);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(382);  
+}
+
+void startbit(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(3168);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(568);
+}
+
+void stopbit(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(406);
+  digitalWrite(ir_pin, LOW);  
+}
+
 void setup() {
   Serial.begin(115200);
   Serial.println("Submit data in the following format to decode:");
   Serial.println("Mode[1-5],Temperature[18-30],FanMode[1-4],HSW[0/1],VSW[0/1]");
+  pinMode(ir_pin, OUTPUT);
 }
 
 
@@ -163,6 +209,7 @@ if(stringComplete){
   Serial.print(": MSB Format :");
   print_ir_out2();
   Serial.println("");
+  transmit();
   }
 }
 
