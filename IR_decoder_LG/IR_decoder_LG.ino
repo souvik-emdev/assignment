@@ -3,13 +3,19 @@
  */
 //////////////////////////Setup////////////////////////////////
 
-//Mode: Cool=1, Auto=2, Dry=3, Fan=4, Off=5
-uint8_t mode = 1;
+//power mode, on or off 
+bool power = 0;
 //Temperature: Range is 16-30
 uint8_t temp = 16;
-//Fan mode: Auto=1, High=2, Med=3, Low=4
-uint8_t fan = 1;
-
+//Fan mode: Auto=4, High=3, Med=2, Low=1
+uint8_t fan = 4;
+bool hsw = 0;
+bool vsw = 0;
+//Mode: Cool=1, Auto=2, Dry=3, Fan=4
+uint8_t mode = 1;
+//The change from the previous, required for special blasts
+//1-6
+uint8_t change = 1;
 
 
 //////////////////////////////////////////////////////////////
@@ -17,7 +23,6 @@ uint8_t fan = 1;
 String inputString = "";      // a String to hold incoming data from serial
 bool stringComplete = false;  // whether the serial string is complete
 char received_data[15]; //string to char for better effeciency
-uint8_t p_m = 0; //previous mode, required to generate 'ON' mode bits
 
 //Sample array
 uint8_t ir_out[]={0x0,0x8,0x1,0x5}; //these positions are variable
@@ -37,7 +42,31 @@ void build_ir_out2(){
         j++;
     }
 }
+////////////////////////////////////////////////////////////////
 
+void setpower(){
+ if (power){
+  ir_out[0]=0x0;
+  settemp();
+  setfan();
+  if (mode == 1){ir_out[1]=0x0;}
+  else if (mode == 2){ir_out[1]=0x3;}
+  else if (mode == 3){ir_out[1]=0x1;}
+  else if (mode == 4){ir_out[1]=0x2;}
+  }
+  else {ir_out[0]=0xC;ir_out[1]=0x0;ir_out[2]=0x0;ir_out[3]=0x5;}
+}
+
+void setswing(){
+  if (change == 4){
+    if (hsw){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x6;}
+    else {ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x7;}
+  }
+  else if (change == 5){
+    if (vsw){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x4;}
+    else {ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x5;}
+  }
+}
 
 void setfan(){
   if (fan==1){ir_out[3]=0x0;}
@@ -55,22 +84,10 @@ void settemp(){
 }
 
 void setmode(){
-  if (mode == 1){ir_out[0]=0x0;ir_out[1]=0x8;p_m=1;} //cool
-  else if (mode == 2){ir_out[0]=0x0;ir_out[1]=0xB;ir_out[2]=0x2;ir_out[3]=0x5;p_m=2;} //auto, set temp & fan
-  else if (mode == 3){ir_out[0]=0x0;ir_out[1]=0x9;p_m=3;} //dry
-  else if (mode == 4){ir_out[0]=0x0;ir_out[1]=0xA;ir_out[2]=0x3;p_m=4;} //fan, set temp
-  else if (mode == 5){                                     //On. Depends on the previous mode
-    ir_out[0]=0x0;
-    if (p_m == 1){ir_out[1]=0x0;}
-    else if (p_m == 2){ir_out[1]=0x3;}
-    else if (p_m == 3){ir_out[1]=0x1;}
-    else if (p_m == 4){ir_out[1]=0x2;}
-  }
-  else if (mode == 6){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x0;ir_out[3]=0xB;} //hsw on
-  else if (mode == 7){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x7;} //hsw off
-  else if (mode == 8){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x4;} //vsw on
-  else if (mode == 9){ir_out[0]=0x1;ir_out[1]=0x3;ir_out[2]=0x1;ir_out[3]=0x5;} //vsw off
-  else if (mode == 10){ir_out[0]=0xC;ir_out[1]=0x0;ir_out[2]=0x0;ir_out[3]=0x5;} //OFF
+  if (mode == 1){ir_out[0]=0x0;ir_out[1]=0x8;} //cool
+  else if (mode == 2){ir_out[0]=0x0;ir_out[1]=0xB;ir_out[2]=0x2;ir_out[3]=0x5;} //auto, set temp & fan
+  else if (mode == 3){ir_out[0]=0x0;ir_out[1]=0x9;} //dry
+  else if (mode == 4){ir_out[0]=0x0;ir_out[1]=0xA;ir_out[2]=0x3;} //fan, set temp
 }
 
 void parse_data(char received[]){ //Parsing the incoming serial data and store in setup variables
@@ -80,8 +97,8 @@ void parse_data(char received[]){ //Parsing the incoming serial data and store i
   while (tok != NULL) {
      if (i == 0){
       token = tok; 
-      mode = token.toInt();
-      }
+      power = token.toInt();
+     }
      if (i == 1){
      token = tok;
      temp = token.toInt();
@@ -89,6 +106,22 @@ void parse_data(char received[]){ //Parsing the incoming serial data and store i
      if (i == 2){
      token = tok;
      fan = token.toInt();
+     }
+     if (i == 3){
+     token = tok;
+     hsw = token.toInt();
+     }
+     if (i == 4){
+     token = tok;
+     vsw = token.toInt();
+     }
+     if (i == 5){
+     token = tok;
+     mode = token.toInt();
+     }
+     if (i == 6){
+     token = tok;
+     change = token.toInt();
      }
      tok = strtok(NULL, ",");
      i++;
@@ -122,8 +155,8 @@ for(int k=0;k<4;k++){
 
 void print_help(){
   Serial.println("Submit data in the following format to decode:");
-  Serial.println("Mode[1-10],Temperature[16-30],FanMode[1-4]");
-  Serial.println("Mode:1-Cool,2-Auto,3-Dry,4-Fan,5-ON,6&7-HSW,8&9-VSW,10-OFF");
+  Serial.println("Power,Temperature[16-30],FanMode[1-4],HSW,VSW,Mode,Change");
+  Serial.println("Mode:1-Cool,2-Auto,3-Dry,4-Fan");
   Serial.println("Fan:1-Low,2-Med,3-High,4-Auto");  
 }
 
@@ -139,12 +172,18 @@ if(stringComplete){
   inputString.toCharArray(received_data, 15);
   inputString = "";
   parse_data(received_data); //set setup variables
-  if (mode < 5){
+  
+  if (change == 1){
+    setpower();
+  }
+  else if ((change == 4) || (change == 5)){
+    setswing();
+  }
+  else{
     settemp();
     setfan();
-    setmode(); 
+    setmode();
   }
-  else setmode();
     
   build_ir_out2();
 
