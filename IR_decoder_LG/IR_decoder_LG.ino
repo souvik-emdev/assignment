@@ -20,7 +20,7 @@ char received_data[15]; //string to char for better effeciency
 uint8_t p_m = 0; //previous mode, required to generate 'ON' mode bits
 
 //Sample array
-uint8_t ir_out[]={0x0,0x8,0x1,0x5,0x0}; //these positions are variable
+uint8_t ir_out[]={0x0,0x8,0x1,0x5}; //these positions are variable
 uint8_t ir_out2[4]; //final decoded array which contain MSB
 
 //Builds final ir_out2 taking fixed data and variable data from ir_out
@@ -105,10 +105,31 @@ void print_ir_out2(){
   Serial.println("");
 }
 
-void setup() {
-  Serial.begin(115200);
+void summation(){
+byte sum = 0;
+ir_out2[3] = 0;
+for(int k=0;k<4;k++){
+     // Serial.println(k);
+     byte nibble1 = (byte) (ir_out2[k] & 0x0F);
+     byte nibble2 = (byte)((ir_out2[k] & 0xF0) >> 4);
+     sum += (nibble1 + nibble2);
+   }
+   ir_out2[3] = (byte)(sum & 0x0F);
+//   Serial.println("");
+//   Serial.print("CheckSum:");
+//   Serial.println(checksum, HEX);  
+}
+
+void print_help(){
   Serial.println("Submit data in the following format to decode:");
   Serial.println("Mode[1-10],Temperature[16-30],FanMode[1-4]");
+  Serial.println("Mode:1-Cool,2-Auto,3-Dry,4-Fan,5-ON,6&7-HSW,8&9-VSW,10-OFF");
+  Serial.println("Fan:1-Low,2-Med,3-High,4-Auto");  
+}
+
+void setup() {
+  Serial.begin(115200);
+  print_help();
 }
 
 
@@ -124,13 +145,15 @@ if(stringComplete){
     setmode(); 
   }
   else setmode();
-  
-  //CheckSum generation here
     
   build_ir_out2();
+
+  summation(); //checksum generation
+  
   Serial.print(": MSB Format :");
   print_ir_out2();
-  Serial.println("");
+  print_help();
+  Serial.println(""); 
   }
 }
 
