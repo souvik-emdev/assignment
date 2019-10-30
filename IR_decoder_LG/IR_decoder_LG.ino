@@ -1,6 +1,7 @@
 /* Remote name: LG AC
  *  Format MSB
  */
+#define ir_pin 8
 //////////////////////////Setup////////////////////////////////
 
 //power mode, on or off 
@@ -147,7 +148,7 @@ for(int k=0;k<4;k++){
      byte nibble2 = (byte)((ir_out2[k] & 0xF0) >> 4);
      sum += (nibble1 + nibble2);
    }
-   ir_out2[3] = (byte)(sum & 0x0F);
+   ir_out2[3] = (byte)((sum & 0x0F)<<4);
 //   Serial.println("");
 //   Serial.print("CheckSum:");
 //   Serial.println(checksum, HEX);  
@@ -160,9 +161,54 @@ void print_help(){
   Serial.println("Fan:1-Low,2-Med,3-High,4-Auto");  
 }
 
+void transmit(){
+  startbit();
+  bool bitvalue = 0;
+  //Serial.println("bitvalue");
+  for (int i=0; i<4; i++){
+    for (int j=7; j>=0; j--){
+      if ((i==3) && (j==3)) break;
+      bitvalue = bitRead(ir_out2[i], j);
+      //Serial.print(bitvalue); 
+      if(bitvalue){tx1();}
+      else {tx0();}     
+    }
+    //Serial.print(" ");
+  }
+  stopbit();
+}
+
+void tx1(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(514);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(1504);  
+}
+
+void tx0(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(520);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(464);  
+}
+
+void startbit(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(3328);
+  digitalWrite(ir_pin, LOW);
+  delayMicroseconds(9532);
+}
+
+void stopbit(){
+  digitalWrite(ir_pin, HIGH);
+  delayMicroseconds(514);
+  digitalWrite(ir_pin, LOW);  
+}
+
 void setup() {
   Serial.begin(115200);
   print_help();
+  pinMode(ir_pin, OUTPUT);
 }
 
 
@@ -192,7 +238,8 @@ if(stringComplete){
   Serial.print(": MSB Format :");
   print_ir_out2();
   print_help();
-  Serial.println(""); 
+  Serial.println("");
+  transmit(); 
   }
 }
 
