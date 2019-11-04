@@ -1,4 +1,4 @@
-"Z:\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\Library\Device\Nuvoton\MINI58SERIES\Source\system_Mini58Series.c"
+"Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\Device\Nuvoton\MINI58SERIES\Source\system_Mini58Series.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
@@ -8,7 +8,7 @@ Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_
 -o
 system_Mini58Series.pbi
 -I
-Z:\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\Library\Device\Nuvoton\MINI58SERIES\Source
+Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\Device\Nuvoton\MINI58SERIES\Source
 -I
 Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\..\..\..\..\Library\CMSIS\Include
 -I

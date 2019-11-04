@@ -3459,10 +3459,10 @@
     "location": {
       "column": "10",
       "line": "19",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "__HSI",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -3473,10 +3473,10 @@
     "location": {
       "column": "10",
       "line": "20",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "SystemCoreClock",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -3487,10 +3487,10 @@
     "location": {
       "column": "10",
       "line": "21",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "PllClock",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -3501,10 +3501,10 @@
     "location": {
       "column": "10",
       "line": "22",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "CyclesPerUs",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -3515,10 +3515,10 @@
     "location": {
       "column": "6",
       "line": "30",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "SystemInit",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -3529,38 +3529,38 @@
     "location": {
       "column": "6",
       "line": "42",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "SystemCoreClockUpdate",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:Mini58Series.h@1370@F@SystemCoreClockUpdate@u32CoreFreq",
+    "ID": "c:system_Mini58Series.c@1370@F@SystemCoreClockUpdate@u32CoreFreq",
     "What": "Variable",
     "defdec": "Def",
     "display": "u32CoreFreq",
     "location": {
       "column": "14",
       "line": "44",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "u32CoreFreq",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:Mini58Series.h@1370@F@SystemCoreClockUpdate@u32ClkSrc",
+    "ID": "c:system_Mini58Series.c@1370@F@SystemCoreClockUpdate@u32ClkSrc",
     "What": "Variable",
     "defdec": "Dec",
     "display": "u32ClkSrc",
     "location": {
       "column": "27",
       "line": "44",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\Mini58Series\\Include\\Mini58Series.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\Device\\Nuvoton\\MINI58SERIES\\Source\\system_Mini58Series.c"
     },
     "name": "u32ClkSrc",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -44665,24 +44665,24 @@
     "location": {
       "column": "6",
       "line": "43",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\StdDriver\\inc\\wwdt.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\gpio.c"
     },
     "name": "GPIO_SetMode",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
-    "ID": "c:wwdt.h@1371@F@GPIO_SetMode@i",
+    "ID": "c:gpio.c@1371@F@GPIO_SetMode@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "14",
       "line": "45",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\StdDriver\\inc\\wwdt.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\gpio.c"
     },
     "name": "i",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -44693,10 +44693,10 @@
     "location": {
       "column": "6",
       "line": "72",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\StdDriver\\inc\\wwdt.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\gpio.c"
     },
     "name": "GPIO_EnableInt",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -44707,10 +44707,10 @@
     "location": {
       "column": "6",
       "line": "89",
-      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\StdDriver\\inc\\wwdt.h"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\gpio.c"
     },
     "name": "GPIO_DisableInt",
-    "origin": "user_include",
+    "origin": "project_file",
     "scope": null
   },
   {
@@ -45897,7 +45897,7 @@
     "location": {
       "column": "9",
       "line": "25",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "DEBUG_PORT",
     "origin": "project_file",
@@ -45917,7 +45917,7 @@
         "location": {
           "column": "8",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "r0",
         "origin": "project_file",
@@ -45931,7 +45931,7 @@
         "location": {
           "column": "12",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "r1",
         "origin": "project_file",
@@ -45945,7 +45945,7 @@
         "location": {
           "column": "16",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "r2",
         "origin": "project_file",
@@ -45959,7 +45959,7 @@
         "location": {
           "column": "20",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "r3",
         "origin": "project_file",
@@ -45973,7 +45973,7 @@
         "location": {
           "column": "24",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "r12",
         "origin": "project_file",
@@ -45987,7 +45987,7 @@
         "location": {
           "column": "29",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "lr",
         "origin": "project_file",
@@ -46001,7 +46001,7 @@
         "location": {
           "column": "33",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "pc",
         "origin": "project_file",
@@ -46015,7 +46015,7 @@
         "location": {
           "column": "37",
           "line": "47",
-          "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+          "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
         },
         "name": "psr",
         "origin": "project_file",
@@ -46025,7 +46025,7 @@
     "location": {
       "column": "1",
       "line": "47",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "",
     "origin": "project_file",
@@ -46039,7 +46039,7 @@
     "location": {
       "column": "6",
       "line": "49",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "stackDump",
     "origin": "project_file",
@@ -46053,7 +46053,7 @@
     "location": {
       "column": "6",
       "line": "61",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "Hard_Fault_Handler",
     "origin": "project_file",
@@ -46067,7 +46067,7 @@
     "location": {
       "column": "6",
       "line": "294",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "HardFault_Handler",
     "origin": "project_file",
@@ -46081,7 +46081,7 @@
     "location": {
       "column": "6",
       "line": "351",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "SendChar_ToUART",
     "origin": "project_file",
@@ -46095,7 +46095,7 @@
     "location": {
       "column": "6",
       "line": "371",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "SendChar",
     "origin": "project_file",
@@ -46109,7 +46109,7 @@
     "location": {
       "column": "6",
       "line": "408",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "GetChar",
     "origin": "project_file",
@@ -46123,7 +46123,7 @@
     "location": {
       "column": "5",
       "line": "451",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "kbhit",
     "origin": "project_file",
@@ -46137,7 +46137,7 @@
     "location": {
       "column": "5",
       "line": "467",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "IsDebugFifoEmpty",
     "origin": "project_file",
@@ -46151,7 +46151,7 @@
     "location": {
       "column": "6",
       "line": "480",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "_ttywrch",
     "origin": "project_file",
@@ -46165,7 +46165,7 @@
     "location": {
       "column": "5",
       "line": "486",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "fputc",
     "origin": "project_file",
@@ -46179,7 +46179,7 @@
     "location": {
       "column": "5",
       "line": "526",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "fgetc",
     "origin": "project_file",
@@ -46193,7 +46193,7 @@
     "location": {
       "column": "5",
       "line": "532",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\retarget.c"
     },
     "name": "ferror",
     "origin": "project_file",
@@ -46655,7 +46655,7 @@
     "location": {
       "column": "6",
       "line": "36",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_ClearIntFlag",
     "origin": "project_file",
@@ -46669,7 +46669,7 @@
     "location": {
       "column": "6",
       "line": "66",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_Close",
     "origin": "project_file",
@@ -46683,7 +46683,7 @@
     "location": {
       "column": "6",
       "line": "79",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_DisableFlowCtrl",
     "origin": "project_file",
@@ -46697,7 +46697,7 @@
     "location": {
       "column": "6",
       "line": "101",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_DisableInt",
     "origin": "project_file",
@@ -46711,7 +46711,7 @@
     "location": {
       "column": "6",
       "line": "115",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_EnableFlowCtrl",
     "origin": "project_file",
@@ -46725,7 +46725,7 @@
     "location": {
       "column": "6",
       "line": "140",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_EnableInt",
     "origin": "project_file",
@@ -46739,7 +46739,7 @@
     "location": {
       "column": "6",
       "line": "154",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_Open",
     "origin": "project_file",
@@ -46753,7 +46753,7 @@
     "location": {
       "column": "13",
       "line": "156",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u8UartClkSrcSel",
     "origin": "project_file",
@@ -46767,7 +46767,7 @@
     "location": {
       "column": "14",
       "line": "157",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Clk",
     "origin": "project_file",
@@ -46781,7 +46781,7 @@
     "location": {
       "column": "14",
       "line": "158",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32ClkDiv",
     "origin": "project_file",
@@ -46795,7 +46795,7 @@
     "location": {
       "column": "14",
       "line": "159",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Baud_Div",
     "origin": "project_file",
@@ -46809,7 +46809,7 @@
     "location": {
       "column": "10",
       "line": "198",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_Read",
     "origin": "project_file",
@@ -46823,7 +46823,7 @@
     "location": {
       "column": "15",
       "line": "200",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Count",
     "origin": "project_file",
@@ -46837,7 +46837,7 @@
     "location": {
       "column": "25",
       "line": "200",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32delayno",
     "origin": "project_file",
@@ -46851,7 +46851,7 @@
     "location": {
       "column": "6",
       "line": "232",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_SetLine_Config",
     "origin": "project_file",
@@ -46865,7 +46865,7 @@
     "location": {
       "column": "13",
       "line": "234",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u8UartClkSrcSel",
     "origin": "project_file",
@@ -46879,7 +46879,7 @@
     "location": {
       "column": "14",
       "line": "235",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Clk",
     "origin": "project_file",
@@ -46893,7 +46893,7 @@
     "location": {
       "column": "14",
       "line": "236",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32ClkDiv",
     "origin": "project_file",
@@ -46907,7 +46907,7 @@
     "location": {
       "column": "14",
       "line": "237",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Baud_Div",
     "origin": "project_file",
@@ -46921,7 +46921,7 @@
     "location": {
       "column": "6",
       "line": "273",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_SetTimeoutCnt",
     "origin": "project_file",
@@ -46935,7 +46935,7 @@
     "location": {
       "column": "6",
       "line": "289",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_SelectIrDAMode",
     "origin": "project_file",
@@ -46949,7 +46949,7 @@
     "location": {
       "column": "13",
       "line": "291",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u8UartClkSrcSel",
     "origin": "project_file",
@@ -46963,7 +46963,7 @@
     "location": {
       "column": "14",
       "line": "292",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Clk",
     "origin": "project_file",
@@ -46977,7 +46977,7 @@
     "location": {
       "column": "14",
       "line": "293",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32ClkDiv",
     "origin": "project_file",
@@ -46991,7 +46991,7 @@
     "location": {
       "column": "6",
       "line": "325",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_SelectRS485Mode",
     "origin": "project_file",
@@ -47005,7 +47005,7 @@
     "location": {
       "column": "10",
       "line": "342",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "UART_Write",
     "origin": "project_file",
@@ -47019,7 +47019,7 @@
     "location": {
       "column": "15",
       "line": "344",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32Count",
     "origin": "project_file",
@@ -47033,7 +47033,7 @@
     "location": {
       "column": "25",
       "line": "344",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\Library\\STDDRIVER\\src\\uart.c"
+      "path": "Z:\\Mini58 Resources\\Mini58_Series_BSP_CMSIS_v3.01.000\\Library\\STDDRIVER\\src\\uart.c"
     },
     "name": "u32delayno",
     "origin": "project_file",
@@ -47213,25 +47213,11 @@
     "defdec": "Dec",
     "display": "debounce_read",
     "location": {
-      "column": "9",
+      "column": "18",
       "line": "33",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "debounce_read",
-    "origin": "project_file",
-    "scope": null
-  },
-  {
-    "ID": "c:@F@timer_int",
-    "What": "Function",
-    "defdec": "Def",
-    "display": "void timer_int(void)",
-    "location": {
-      "column": "6",
-      "line": "35",
-      "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
-    },
-    "name": "timer_int",
     "origin": "project_file",
     "scope": null
   },
@@ -47242,7 +47228,7 @@
     "display": "void TMR0_IRQHandler(void)",
     "location": {
       "column": "6",
-      "line": "49",
+      "line": "35",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "TMR0_IRQHandler",
@@ -47256,7 +47242,7 @@
     "display": "void GPIO234_IRQHandler(void)",
     "location": {
       "column": "6",
-      "line": "64",
+      "line": "50",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "GPIO234_IRQHandler",
@@ -47270,7 +47256,7 @@
     "display": "void SYS_Init(void)",
     "location": {
       "column": "6",
-      "line": "82",
+      "line": "69",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "SYS_Init",
@@ -47284,7 +47270,7 @@
     "display": "void UART0_IRQHandler(void)",
     "location": {
       "column": "6",
-      "line": "188",
+      "line": "175",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "UART0_IRQHandler",
@@ -47298,7 +47284,7 @@
     "display": "int main(void)",
     "location": {
       "column": "5",
-      "line": "234",
+      "line": "221",
       "path": "Z:\\MINI58 RESOURCES\\MINI58_SERIES_BSP_CMSIS_V3.01.000\\SAMPLECODE\\STDDRIVER\\TEST_1\\main.c"
     },
     "name": "main",

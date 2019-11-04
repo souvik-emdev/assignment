@@ -12,7 +12,7 @@
         <ByteLimit>50</ByteLimit>
     </Stack>
     <DebugChecksum>
-        <Checksum>2957355953</Checksum>
+        <Checksum>3684696910</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -28,9 +28,8 @@
         <mode>0</mode>
     </DisassembleMode>
     <Breakpoints>
-        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\SAMPLECODE\STDDRIVER\TEST_1\main.c}.71.5" 1 0 0 0 "" 0 ""</Bp0>
-        <Bp1>_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\..\..\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\SAMPLECODE\STDDRIVER\TEST_1\main.c}.51.3" 1 0 0 0 "" 0 ""</Bp1>
-        <Count>2</Count>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\..\..\..\..\Library\STDDRIVER\src\timer.c}.69.5" 1 0 0 0 "" 0 ""</Bp0>
+        <Count>1</Count>
     </Breakpoints>
     <TermIOLog>
         <LoggingEnabled>_ 0</LoggingEnabled>

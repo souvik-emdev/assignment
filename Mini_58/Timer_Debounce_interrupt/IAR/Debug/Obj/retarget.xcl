@@ -1,4 +1,4 @@
-"Z:\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\Library\STDDRIVER\src\retarget.c"
+"Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\STDDRIVER\src\retarget.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
@@ -8,7 +8,7 @@ Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_
 -o
 retarget.pbi
 -I
-Z:\MINI58 RESOURCES\MINI58_SERIES_BSP_CMSIS_V3.01.000\Library\STDDRIVER\src
+Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\STDDRIVER\src
 -I
 Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\..\..\..\..\Library\CMSIS\Include
 -I

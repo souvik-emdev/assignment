@@ -28,23 +28,9 @@ uint8_t g0_u8RecData[KEUS_UART_BUFFER]  = {0};
 uint8_t g0_bufferCounter = 0;
 uint8_t g0_shouldSaveToBuffer = 0;
 uint8_t g0_endMessageIndex = 0;
-uint8_t uartStr[] = {'T','o','g','g','l','e','d'};
+uint8_t uartStr[] = {'T','o','g','g','l','e','d', 0x0A};
 
-uint8_t debounce_read = 1;
-
-void timer_int(void)
-{
-   // Set timer 1 shot with 10HZ
-  TIMER_Open(TIMER0, TIMER_ONESHOT_MODE, 10);
-
-  // Update prescale value
-  TIMER_SET_PRESCALE_VALUE(TIMER0, 0);
-  // Start Timer 0
-  TIMER_Start(TIMER0);
-  // Enable timer interrupt
-  TIMER_EnableInt(TIMER0);
-  NVIC_EnableIRQ(TMR0_IRQn);
-}
+volatile uint8_t debounce_read = 1;
 
 void TMR0_IRQHandler(void)
 {
@@ -67,8 +53,9 @@ void GPIO234_IRQHandler(void)
   if (debounce_read)
     {
     P23 = ~P23;
-    UART_Write(UART0, uartStr, 7);
-    timer_int();
+    UART_Write(UART0, uartStr, 8);
+    //timer_int();
+    TIMER_Start(TIMER0);
     } 
   reg = P2->INTSRC;
   P2->INTSRC = reg;
@@ -261,12 +248,22 @@ int main(void)
   NVIC_EnableIRQ(GPIO234_IRQn);
 
   
-  uint8_t uartReply[] = {'D','o','n','e','!'};
+  uint8_t uartReply[] = {'D','o','n','e','!', 0x0A};
 
   /* Enable interrupt de-bounce function and select de-bounce sampling cycle time */
   // GPIO_SET_DEBOUNCE_TIME(GPIO_DBCTL_DBCLKSRC_HCLK, GPIO_DBCTL_DBCLKSEL_512);
   // GPIO_ENABLE_DEBOUNCE(P2, BIT4);
-  timer_int();
+  
+   // Set timer 1 shot with 10HZ
+  TIMER_Open(TIMER0, TIMER_ONESHOT_MODE, 10);
+
+  // Update prescale value
+  //TIMER_SET_PRESCALE_VALUE(TIMER0, 0);
+  // Start Timer 0
+  TIMER_Start(TIMER0);
+  // Enable timer interrupt
+  TIMER_EnableInt(TIMER0);
+  NVIC_EnableIRQ(TMR0_IRQn);
   
   while(1)
   {
@@ -281,7 +278,7 @@ int main(void)
     {
       message_received = 0;
       P23 = g0_u8RecData[0];
-      UART_Write(UART0, uartReply, 5);
+      UART_Write(UART0, uartReply, 6);
 
     }
     
