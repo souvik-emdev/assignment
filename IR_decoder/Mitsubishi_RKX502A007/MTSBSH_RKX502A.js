@@ -44,7 +44,9 @@ const tempOptions = [0x07,	//18
 					 0x0A,	//27
 					 0x02,	//28
 					 0x0C,	//29
-					 0x04];  //30	
+					 0x04];  //30
+
+18 - 30
 
 //8 9=~8					
 const fanOptions = {"low"  		: 0x05,

@@ -1,7 +1,6 @@
 var ir_out2 = [];
 
-function setswing(change, hsw, vsw)
-{
+function setswing(change, hsw, vsw) {
     if (change == 4) {
         if (hsw) { ir_out2[2] = 0x13; ir_out2[3] = 0x16; }
         else { ir_out2[2] = 0x13; ir_out2[3] = 0x17; }
@@ -12,8 +11,7 @@ function setswing(change, hsw, vsw)
     }
 }
 
-function setfan(fan)
-{
+function setfan(fan) {
     ir_out2[3] = (ir_out2[3] & 0xF0);
     if (fan == 1) { ir_out2[3] = (ir_out2[3] | 0x00); }
     else if (fan == 2) { ir_out2[3] = ir_out2[3] | 0x02; }
@@ -22,8 +20,7 @@ function setfan(fan)
 
 }
 
-function settemp(temp)
-{
+function settemp(temp) {
     ir_out2[3] = (ir_out2[3] & 0x0F);
     var val = 0x10;
     for (var i = 16; i <= 30; i++) {
@@ -33,8 +30,7 @@ function settemp(temp)
     ir_out2[3] = val | ir_out2[3];
 }
 
-function setmode(mode)
-{
+function setmode(mode) {
     if (mode == 1) { ir_out2[2] = 0x08; } //cool
     else if (mode == 2) { ir_out2[2] = 0x0B; settemp(17); setfan(4); } //auto, set temp & fan
     else if (mode == 3) { ir_out2[2] = 0x09; } //dry
@@ -42,24 +38,22 @@ function setmode(mode)
 }
 
 
-function summation()
-{
+function summation() {
     var sum = 0;
     ir_out2[4] = 0;
-    for(var k=1;k<4;k++){
-         // Serial.println(k);
-         var nibble1 =  (ir_out2[k] & 0x0F) & 0xFF;
-         var nibble2 = ((ir_out2[k] & 0xF0) >> 4) & 0xFF;
-         sum += (nibble1 + nibble2);
-       }
-       ir_out2[4] = ((sum & 0x0F)<<4) & 0xFF;
+    for (var k = 1; k < 4; k++) {
+        // Serial.println(k);
+        var nibble1 = (ir_out2[k] & 0x0F) & 0xFF;
+        var nibble2 = ((ir_out2[k] & 0xF0) >> 4) & 0xFF;
+        sum += (nibble1 + nibble2);
+    }
+    ir_out2[4] = ((sum & 0x0F) << 4) & 0xFF;
     //   Serial.println("");
     //   Serial.print("CheckSum:");
     //   Serial.println(checksum, HEX);  
 }
 
-function setpower(power, temp, fan, mode)
-{
+function setpower(power, temp, fan, mode) {
     if (power) {
         settemp(temp);
         setfan(fan);
@@ -73,8 +67,7 @@ function setpower(power, temp, fan, mode)
 
 
 
-function ir_generator(irInfo)
-{
+function ir_generator(irInfo) {
 
     var i = 0;
     var swingInfo = {};
@@ -87,10 +80,10 @@ function ir_generator(irInfo)
             setpower(irInfo.power, irInfo.temp, irInfo.fan, irInfo.mode);
             break;
 
-        case 4: ;
-        case 5: ;
+        case 4:
+        case 5:
             swingInfo.change = irInfo.change;
-            swingInfor.hsw = irInfo.hsw;
+            swingInfo.hsw = irInfo.hsw;
             swingInfo.vsw = irInfo.vsw;
 
             setswing(swingInfo);
@@ -109,8 +102,8 @@ function ir_generator(irInfo)
 
     console.log('\nFormed Data');
     var stringer = "[";
-    ir_out2.forEach(function(element){
-        stringer += ('0x' +element.toString(16) + ", ");
+    ir_out2.forEach(function (element) {
+        stringer += ('0x' + element.toString(16) + ", ");
     });
     stringer += "]";
     console.log(stringer);
