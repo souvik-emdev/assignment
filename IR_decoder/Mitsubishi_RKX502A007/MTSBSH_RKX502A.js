@@ -22,6 +22,7 @@ power sel-not implemented
 
 */
 
+//const info - Make and model of ac for personal reference
 const info =   {"Brand"		: "Mitshubishi",  
 			    "Model"  	: "RKX502A007",
 				"Protocol"  : "MITSUBISHI88AC",
@@ -32,6 +33,7 @@ const info =   {"Brand"		: "Mitshubishi",
 
 
 //temp 18-30   10 ; 11 = ~10
+//const tempOptions - list of temperature byte values
 const tempOptions = [0x07,	//18
 					 0x0B,	//19
 					 0x03,	//20
@@ -46,9 +48,10 @@ const tempOptions = [0x07,	//18
 					 0x0C,	//29
 					 0x04];  //30
 
-18 - 30
+//18 - 30
 
-//8 9=~8					
+//8 9=~8	
+//const fanOptions - object of fan options and corresponding byte values				
 const fanOptions = {"low"  		: 0x05,
 					"medium"  	: 0x01,
 					"high"		: 0x06,
@@ -57,6 +60,7 @@ const fanOptions = {"low"  		: 0x05,
 
 //H 6 7=~6 ;  V 8 9=~8
 
+//const swingOptions - object of swing (vertical + horizontal) options and corresponding byte values
 const swingOptions = {	"vertical" 		: { "off" 	: [0xC0, 0xF8],
 											"auto"	: [0xC0, 0xF0]},
 						"horizontal"	: {"off" 	: [0x3F, 0x00],
@@ -65,6 +69,7 @@ const swingOptions = {	"vertical" 		: { "off" 	: [0xC0, 0xF8],
 			  
 
 //10th byte low nibble - mode
+//const modeOptions - object of modes and byte values for corresponding preset options for the mode
 const modeOptions = {	"cool"	: { "mode" : 0x60,
 									"temp" : null,  //25
 									"fan"  : null  //high
@@ -83,6 +88,7 @@ const modeOptions = {	"cool"	: { "mode" : 0x60,
 								  }			  		  
 					};
 
+//const updateTypesAvailable - List of packet types avaiable for the AC
 const updateTypesAvailable = ["ONOF"] ;
 const sceneTypesAvailable =  ["ONOF"];					
 
