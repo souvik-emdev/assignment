@@ -1,0 +1,9 @@
+power : 1/0  on/off
+temp : 16-30 
+fan : 0-4 
+hswing
+vswing
+mode
+change : [1-6]
+
+1,18,2,1,0,1,2

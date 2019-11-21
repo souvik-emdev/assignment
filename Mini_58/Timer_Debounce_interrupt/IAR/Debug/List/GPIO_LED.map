@@ -1,0 +1,291 @@
+###############################################################################
+#
+# IAR ELF Linker V8.40.1.212/W32 for ARM                  03/Nov/2019  22:16:34
+# Copyright 2007-2019 IAR Systems AB.
+#
+#    Output file  =
+#        Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Exe\GPIO_LED.out
+#    Map file     =
+#        Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\List\GPIO_LED.map
+#    Command line =
+#        -f C:\Users\EMBEDD~1\AppData\Local\Temp\EW66BC.tmp ("Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\clk.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\gpio.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\main.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\retarget.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\startup_Mini58Series.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\sys.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\system_Mini58Series.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\timer.o"
+#        "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj\uart.o"
+#        --redirect _Printf=_PrintfTiny --redirect _Scanf=_ScanfSmall
+#        --no_out_extension -o "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Exe\GPIO_LED.out"
+#        --map "Z:\Mini58
+#        Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\List\GPIO_LED.map"
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.3\arm\CONFIG\generic_cortex.icf" --semihosting --entry Reset_Handler
+#        --inline --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because no calls to memory allocation
+functions were found in the application outside of system library
+functions, and there are calls to deallocation functions in the
+application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x0 { ro section .intvec };
+"P1":  place in [from 0x0 to 0x7'ffff] { ro };
+define block CSTACK with size = 1K, alignment = 8 { };
+define block PROC_STACK with size = 0, alignment = 8 { };
+define block HEAP with size = 2K, alignment = 8 { };
+"P2":  place in [from 0x2000'0000 to 0x2000'ffff] {
+          rw, block CSTACK, block PROC_STACK, block HEAP };
+initialize by copy { rw };
+
+  Section            Kind         Address   Size  Object
+  -------            ----         -------   ----  ------
+"A0":                                       0xc0
+  .intvec            ro code          0x0   0xc0  startup_Mini58Series.o [1]
+                                   - 0xc0   0xc0
+
+"P1":                                      0xa04
+  .text              ro code         0xc0  0x260  main.o [1]
+  .text              ro code        0x320   0xfc  uart.o [1]
+  .text              ro code        0x41c   0x20  clk.o [1]
+  .text              ro code        0x43c   0xa0  system_Mini58Series.o [1]
+  .text              ro code        0x4dc   0x4a  gpio.o [1]
+  .text              ro code        0x528   0x9c  timer.o [1]
+  .text              ro code        0x5c4   0xae  I32DivModFast.o [4]
+  .text              ro code        0x672  0x172  xprintftiny.o [2]
+  .text              ro code        0x7e4    0xe  strlen.o [4]
+  .text              ro code        0x7f4  0x120  retarget.o [1]
+  .text              ro code        0x914   0x28  printf.o [2]
+  .text              ro code        0x93c   0x3c  zero_init3.o [4]
+  .text              ro code        0x978   0x3c  packbits_init_single.o [4]
+  .text              ro code        0x9b4   0x28  data_init.o [4]
+  .iar.init_table    const          0x9dc   0x20  - Linker created -
+  .text              ro code        0x9fc   0x1e  cmain.o [4]
+  .text              ro code        0xa1a    0x8  exit.o [2]
+  .text              ro code        0xa24    0xa  cexit.o [4]
+  .text              ro code        0xa30   0x14  exit.o [5]
+  .text              ro code        0xa44   0x16  xprout.o [2]
+  .text              ro code        0xa5c   0x10  putchar.o [2]
+  .text              ro code        0xa6c    0xc  cstartup_M.o [4]
+  .text              ro code        0xa78    0x8  startup_Mini58Series.o [1]
+  .text              ro code        0xa80    0x2  startup_Mini58Series.o [1]
+  .rodata            const          0xa82    0x0  zero_init3.o [4]
+  .rodata            const          0xa82    0x0  packbits_init_single.o [4]
+  Initializer bytes  const          0xa82   0x42  <for P2-1>
+                                  - 0xac4  0xa04
+
+"P2", part 1 of 3:                          0x64
+  P2-1                        0x2000'0000   0x64  <Init block>
+    .data            inited   0x2000'0000    0xc  main.o [1]
+    .data            inited   0x2000'000c    0x4  system_Mini58Series.o [1]
+    .data            inited   0x2000'0010    0xc  system_Mini58Series.o [1]
+    .data            inited   0x2000'001c   0x48  xfiles.o [2]
+                            - 0x2000'0064   0x64
+
+"P2", part 2 of 3:                          0x74
+  .bss               zero     0x2000'0064   0x50  xfiles.o [2]
+  .bss               zero     0x2000'00b4   0x20  main.o [1]
+  .bss               zero     0x2000'00d4    0x4  main.o [1]
+                            - 0x2000'00d8   0x74
+
+"P2", part 3 of 3:                         0x400
+  CSTACK                      0x2000'00d8  0x400  <Block>
+    CSTACK           uninit   0x2000'00d8  0x400  <Block tail>
+                            - 0x2000'04d8  0x400
+
+Unused ranges:
+
+         From           To      Size
+         ----           --      ----
+        0xac4     0x7'ffff  0x7'f53c
+  0x2000'04d8  0x2000'ffff    0xfb28
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address      Size
+          -------      ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x74:
+          0x2000'0064  0x74
+
+Copy/packbits (__iar_packbits_init_single3)
+    1 source range, total size 0x42 (66% of destination):
+                0xa82  0x42
+    1 destination range, total size 0x64:
+          0x2000'0000  0x64
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                  ro code  ro data  rw data
+    ------                  -------  -------  -------
+command line/config:
+    -------------------------------------------------
+    Total:
+
+Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj: [1]
+    clk.o                        32
+    gpio.o                       74
+    main.o                      608        7       48
+    retarget.o                  288
+    startup_Mini58Series.o      202
+    system_Mini58Series.o       160       11       16
+    timer.o                     156
+    uart.o                      252
+    -------------------------------------------------
+    Total:                    1'772       18       64
+
+dl6M_tlf.a: [2]
+    exit.o                        8
+    printf.o                     40
+    putchar.o                    16
+    xfiles.o                              48      152
+    xprintftiny.o               370
+    xprout.o                     22
+    -------------------------------------------------
+    Total:                      456       48      152
+
+m6M_tl.a: [3]
+    -------------------------------------------------
+    Total:
+
+rt6M_tl.a: [4]
+    I32DivModFast.o             174
+    cexit.o                      10
+    cmain.o                      30
+    cstartup_M.o                 12
+    data_init.o                  40
+    packbits_init_single.o       60
+    strlen.o                     14
+    zero_init3.o                 60
+    -------------------------------------------------
+    Total:                      400
+
+shb_l.a: [5]
+    exit.o                       20
+    -------------------------------------------------
+    Total:                       20
+
+    Gaps                         10
+    Linker created                        32    1'024
+-----------------------------------------------------
+    Grand Total:              2'658       98    1'240
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                       Address   Size  Type      Object
+-----                       -------   ----  ----      ------
+.iar.init_table$$Base         0x9dc          --   Gb  - Linker created -
+.iar.init_table$$Limit        0x9fc          --   Gb  - Linker created -
+?main                         0x9fd         Code  Gb  cmain.o [4]
+CLK_WaitClockReady            0x41d   0x18  Code  Gb  clk.o [1]
+CSTACK$$Base            0x2000'00d8          --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'04d8          --   Gb  - Linker created -
+CyclesPerUs             0x2000'0018    0x4  Data  Gb  system_Mini58Series.o [1]
+GPIO234_IRQHandler             0xcd   0x34  Code  Gb  main.o [1]
+GPIO_EnableInt                0x50b   0x1c  Code  Gb  gpio.o [1]
+GPIO_SetMode                  0x4dd   0x2e  Code  Gb  gpio.o [1]
+HardFault_Handler             0x851   0x18  Code  Gb  retarget.o [1]
+Hard_Fault_Handler            0x83d   0x12  Code  Gb  retarget.o [1]
+PllClock                0x2000'0014    0x4  Data  Gb  system_Mini58Series.o [1]
+Region$$Table$$Base           0x9dc          --   Gb  - Linker created -
+Region$$Table$$Limit          0x9fc          --   Gb  - Linker created -
+Reset_Handler                 0xa79         Code  Wk  startup_Mini58Series.o [1]
+SYS_Init                      0x101   0x94  Code  Gb  main.o [1]
+SendChar_ToUART               0x869    0x2  Code  Gb  retarget.o [1]
+SystemCoreClock         0x2000'0010    0x4  Data  Gb  system_Mini58Series.o [1]
+SystemCoreClockUpdate         0x43d   0x84  Code  Gb  system_Mini58Series.o [1]
+TIMER_Open                    0x529   0x84  Code  Gb  timer.o [1]
+TMR0_IRQHandler                0xc1    0xc  Code  Gb  main.o [1]
+UART0_IRQHandler              0x195   0x6c  Code  Gb  main.o [1]
+UART_Open                     0x321   0xb8  Code  Gb  uart.o [1]
+UART_Write                    0x3e9   0x30  Code  Gb  uart.o [1]
+_PrintfTiny                   0x68d  0x158  Code  Gb  xprintftiny.o [2]
+_Prout                        0xa45   0x16  Code  Gb  xprout.o [2]
+__HSI                   0x2000'000c    0x4  Data  Gb  system_Mini58Series.o [1]
+__aeabi_uidiv                 0x5c5         Code  Gb  I32DivModFast.o [4]
+__aeabi_uidivmod              0x5c5         Code  Gb  I32DivModFast.o [4]
+__cmain                       0x9fd         Code  Gb  cmain.o [4]
+__exit                        0xa31   0x14  Code  Gb  exit.o [5]
+__iar_Stdout            0x2000'001c   0x48  Data  Gb  xfiles.o [2]
+__iar_data_init3              0x9b5   0x28  Code  Gb  data_init.o [4]
+__iar_packbits_init_single3
+                              0x979   0x3c  Code  Gb  packbits_init_single.o [4]
+__iar_program_start           0xa6d         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3              0x93d   0x3c  Code  Gb  zero_init3.o [4]
+__vector_table                  0x0         Data  Gb  startup_Mini58Series.o [1]
+_call_main                    0xa09         Code  Gb  cmain.o [4]
+_exit                         0xa25         Code  Gb  cexit.o [4]
+_main                         0xa17         Code  Gb  cmain.o [4]
+debounce_read           0x2000'0000    0x1  Data  Gb  main.o [1]
+exit                          0xa1b    0x8  Code  Gb  exit.o [2]
+fputc                         0x88b    0xc  Code  Gb  retarget.o [1]
+g0_bufferCounter        0x2000'00d5    0x1  Data  Gb  main.o [1]
+g0_endMessageIndex      0x2000'00d7    0x1  Data  Gb  main.o [1]
+g0_shouldSaveToBuffer   0x2000'00d6    0x1  Data  Gb  main.o [1]
+g0_u8RecData            0x2000'00b4   0x20  Data  Gb  main.o [1]
+main                          0x201   0xbe  Code  Gb  main.o [1]
+message_received        0x2000'00d4    0x1  Data  Gb  main.o [1]
+obuf                    0x2000'0064   0x50  Data  Lc  xfiles.o [2]
+out                           0x673   0x1a  Code  Lc  xprintftiny.o [2]
+printf                        0x915   0x28  Code  Gb  printf.o [2]
+putchar                       0xa5d   0x10  Code  Gb  putchar.o [2]
+stackDump                     0x7f5   0x48  Code  Gb  retarget.o [1]
+strlen                        0x7e5         Code  Gb  strlen.o [4]
+uartStr                 0x2000'0004    0x8  Data  Gb  main.o [1]
+
+
+[1] = Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\TEST_1\IAR\Debug\Obj
+[2] = dl6M_tlf.a
+[3] = m6M_tl.a
+[4] = rt6M_tl.a
+[5] = shb_l.a
+
+  2'658 bytes of readonly  code memory
+     98 bytes of readonly  data memory
+  1'240 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
