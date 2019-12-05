@@ -1,41 +1,23 @@
 /**************************************************************************************************
   Filename:       ZMain.c
-  Revised:        $Date: 2010-09-17 16:25:30 -0700 (Fri, 17 Sep 2010) $
-  Revision:       $Revision: 23835 $
+  Revised:        $Date: 2019-12-05 16:25:30 -0700 (Thrusday, 05 Dec 2019) $
 
-  Description:    Startup and shutdown code for ZStack
+  Description:    Storing and executing KEUS Scene, Switch press action, Controlling GPIOs through UART.
+                  Data transmission format: Startbyte-datalength-data-endbyte
+                  Switch press should toggle corresponding LED
+                  UART Commands to set single/group led state, save scene, execute scene, delete scene
+                  & single blink, wait and blink, continuous blink.
+                  LED Control:
+                  00 - off
+                  01 - on
+                  02 - if previously off turnon<wait>turnoff
+                       if previously on turnoff<wait>turnon<wait>turnoff
+                  03 - Blink continuously
+                  All scene data is being saved to nvic memory and should retain after power cycle
   Notes:          This version targets the Chipcon CC2530
 
 
-  Copyright 2005-2010 Texas Instruments Incorporated. All rights reserved.
 
-  IMPORTANT: Your use of this Software is limited to those specific rights
-  granted under the terms of a software license agreement between the user
-  who downloaded the software, his/her employer (which must be your employer)
-  and Texas Instruments Incorporated (the "License").  You may not use this
-  Software unless you agree to abide by the terms of the License. The License
-  limits your use, and you acknowledge, that the Software may not be modified,
-  copied or distributed unless embedded on a Texas Instruments microcontroller
-  or used solely and exclusively in conjunction with a Texas Instruments radio
-  frequency transceiver, which is integrated into your product.  Other than for
-  the foregoing purpose, you may not use, reproduce, copy, prepare derivative
-  works of, modify, distribute, perform, display or sell this Software and/or
-  its documentation for any purpose.
-
-  YOU FURTHER ACKNOWLEDGE AND AGREE THAT THE SOFTWARE AND DOCUMENTATION ARE
-  PROVIDED �AS IS� WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED,
-  INCLUDING WITHOUT LIMITATION, ANY WARRANTY OF MERCHANTABILITY, TITLE,
-  NON-INFRINGEMENT AND FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT SHALL
-  TEXAS INSTRUMENTS OR ITS LICENSORS BE LIABLE OR OBLIGATED UNDER CONTRACT,
-  NEGLIGENCE, STRICT LIABILITY, CONTRIBUTION, BREACH OF WARRANTY, OR OTHER
-  LEGAL EQUITABLE THEORY ANY DIRECT OR INDIRECT DAMAGES OR EXPENSES
-  INCLUDING BUT NOT LIMITED TO ANY INCIDENTAL, SPECIAL, INDIRECT, PUNITIVE
-  OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT
-  OF SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
-  (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
-
-  Should you have any questions regarding your right to use this Software,
-  contact Texas Instruments Incorporated at www.TI.com.
 **************************************************************************************************/
 
 /*********************************************************************
@@ -67,6 +49,11 @@
 #define KEUS_UART_BUFFER 32
 #define KEUS_UART_MSG_ACK 0x09
 
+//Board LED works on Negative Logic
+#define LED_ON 0x00
+#define LED_OFF 0x01
+
+//Error codes to return
 #define INVALID_DATA 0XFF
 #define CONTROL_INVALID_STATE 0X1F
 #define CONTROL_INVALID_LED 0X2F
@@ -76,54 +63,74 @@
 #define EXECUTE_ID_NOT_FOUND 0X6F
 #define DELETE_ID_NOT_FOUND 0X7F
 
+#define MAX_SCENE_STORAGE 10
+#define SCN_ARR_NVIC_LOCATION 0x10
+
+//This will set when data received in valid format. In loop state of this is monitored
 uint8 message_received = 0;
+
+//Communication variables
 uint8 g0_u8RecData[KEUS_UART_BUFFER] = {0};
 uint8 g0_bufferCounter = 0;
 uint8 g0_shouldSaveToBuffer = 0;
 uint8 g0_endMessageIndex = 0;
 
-KeusGPIOPin ledPin = {0, 0, GPIO_OUTPUT, false, GPIO_HIGH};
-KeusGPIOPin ledPin2 = {0, 1, GPIO_OUTPUT, false, GPIO_HIGH};
-KeusGPIOPin ledPin3 = {0, 4, GPIO_OUTPUT, false, GPIO_LOW};
-KeusGPIOPin ledPin4 = {0, 5, GPIO_OUTPUT, false, GPIO_HIGH};
-KeusGPIOPin buttonPin = {1, 2, GPIO_INPUT, true, GPIO_LOW};
-KeusGPIOPin buttonPin2 = {1, 3, GPIO_INPUT, true, GPIO_LOW};
-KeusGPIOPin buttonPin3 = {1, 4, GPIO_INPUT, true, GPIO_LOW};
-KeusGPIOPin buttonPin4 = {1, 5, GPIO_INPUT, true, GPIO_LOW};
+//GPIO Info
+KeusGPIOPin ledPin = {0, 0, GPIO_OUTPUT, false, LED_OFF};
+KeusGPIOPin ledPin2 = {0, 1, GPIO_OUTPUT, false, LED_OFF};
+KeusGPIOPin ledPin3 = {0, 4, GPIO_OUTPUT, false, LED_ON}; //Hal toggles this at startup
+KeusGPIOPin ledPin4 = {0, 5, GPIO_OUTPUT, false, LED_OFF};
+KeusGPIOPin buttonPin = {1, 2, GPIO_INPUT, true, LED_ON};
+KeusGPIOPin buttonPin2 = {1, 3, GPIO_INPUT, true, LED_ON};
+KeusGPIOPin buttonPin3 = {1, 4, GPIO_INPUT, true, LED_ON};
+KeusGPIOPin buttonPin4 = {1, 5, GPIO_INPUT, true, LED_ON};
 
 void initUart(void);
 void uartRxCb(uint8 port, uint8 event);
 void KEUS_delayms(uint16 ms);
 void KEUS_init(void);
 void KEUS_start(void);
-void KEUS_loop(void);
-void debounceTimerCbk(uint8 timerId);
+void KEUS_loop(void); //the actual polling
+void debounceTimerCbk(uint8 timerId); //debounce timer for switch press
+
+//Timers for ledcontrol mode 2 and 3. Each timer controls single led
 void led1BlinkTimerCbk(uint8 timerId);
 void led2BlinkTimerCbk(uint8 timerId);
 void led3BlinkTimerCbk(uint8 timerId);
 void led4BlinkTimerCbk(uint8 timerId);
+
 void ledControl(void);
 void saveScene(void);
 void executeScene(void);
 void deleteScene(void);
 void groupControl(void);
-void KeusUartAckMsg(uint8);
+void KeusUartAckMsg(uint8); //sends ack and error msg reply
 
-bool KeusThemeSwitchMiniMemoryInit(void);
-bool KeusThemeSwitchMiniWriteConfigDataIntoMemory(void);
-bool KeusThemeSwitchMiniReadConfigDataIntoMemory(void);
+//does nvic operations and returns status of nvic operations
+// bool KeusThemeSwitchMiniMemoryInit(void);
+// bool KeusThemeSwitchMiniWriteConfigDataIntoMemory(void);
+// bool KeusThemeSwitchMiniReadConfigDataIntoMemory(void);
 
-volatile bool debounce_read = true;
+volatile bool debounce_read = true; //only read switchPress if this set
 
-uint8 initStatus = 0;
-uint8 writeStatus = 0;
-uint8 readStatus = 0;
+//status of nvic operations
+// uint8 initStatus = 0;
+// uint8 writeStatus = 0;
+// uint8 readStatus = 0;
 
+//controls timings of ledcontrol mode 2 and 3. Does ++ at timercallback
 uint8 led1BlinkTimerCounter = 0;
 uint8 led2BlinkTimerCounter = 0;
 uint8 led3BlinkTimerCounter = 0;
 uint8 led4BlinkTimerCounter = 0;
 
+/*sets states of led blinking. Used in ledcontrol mode 2 and 3
+each array element for one led
+Example: blinkState[0] = 0; led1 not in blink mode
+blinkState[0] = 1; led1 is in ledcontrol mode 2, previous state was off
+blinkState[0] = 2 & 3; led1 is in ledcontrol mode 2, previous state was on
+blinkState[0] = 4 & 5; led1 is in ledcontrol mode 3, continuous blink
+*/
 uint8 blinkState[4];
 
 struct scene
@@ -133,10 +140,10 @@ struct scene
   uint8 ledPin2;
   uint8 ledPin3;
   uint8 ledPin4;
-  uint8 included[4];
+  uint8 included[4]; //for differentiating which leds are part of the scene. Each element represents one led
 };
 
-struct scene arr_scene[10];
+struct scene arr_scene[MAX_SCENE_STORAGE]; //array of struct of scenes
 
 KeusTimerConfig debounceTimer = {
     &debounceTimerCbk,
@@ -153,52 +160,52 @@ void debounceTimerCbk(uint8 timerId)
 
 KeusTimerConfig led1Timer = {
     &led1BlinkTimerCbk,
-    1000,
+    200,
     true,
     -1,
     0};
 
 void led1BlinkTimerCbk(uint8 timerId)
 {
-  if (blinkState[0] == 1)
+  if (blinkState[0] == 1) //mode 2, previous off
   {
-    ledPin.state = GPIO_HIGH;
+    ledPin.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin);
     blinkState[0] = 0;
     KeusTimerUtilRemoveTimer(&led1Timer);
   }
-  else if (blinkState[0] == 2)
+  else if (blinkState[0] == 2) //mode 2, previous on, turn off time
   {
-    ledPin.state = GPIO_LOW;
+    ledPin.state = LED_ON;
     KeusGPIOSetPinValue(&ledPin);
     blinkState[0] = 3;
   }
-  else if (blinkState[0] == 3)
+  else if (blinkState[0] == 3) //mode 2, previous on, turn on time
   {
-    ledPin.state = GPIO_HIGH;
+    ledPin.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin);
     blinkState[0] = 0;
     KeusTimerUtilRemoveTimer(&led1Timer);
   }
-  else if (blinkState[0] == 4)
+  else if (blinkState[0] == 4) //mode 3, turn on time
   {
-    ledPin.state = GPIO_HIGH;
+    ledPin.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin);
     blinkState[0] = 5;
   }
 
-  else if (blinkState[0] == 5)
+  else if (blinkState[0] == 5) //mode 3, turn off time
   {
     led1BlinkTimerCounter++;
     if (led1BlinkTimerCounter >= 5)
     {
-      ledPin.state = GPIO_LOW;
+      ledPin.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin);
       blinkState[0] = 4;
       led1BlinkTimerCounter = 0;
     }
   }
-  else if (blinkState[0] == 0)
+  else if (blinkState[0] == 0) //blink clear
   {
     KeusTimerUtilRemoveTimer(&led1Timer);
   }
@@ -215,27 +222,27 @@ void led2BlinkTimerCbk(uint8 timerId)
 {
   if (blinkState[1] == 1)
   {
-    ledPin2.state = GPIO_HIGH;
+    ledPin2.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin2);
     blinkState[1] = 0;
     KeusTimerUtilRemoveTimer(&led2Timer);
   }
   else if (blinkState[1] == 2)
   {
-    ledPin2.state = GPIO_LOW;
+    ledPin2.state = LED_ON;
     KeusGPIOSetPinValue(&ledPin2);
     blinkState[1] = 3;
   }
   else if (blinkState[1] == 3)
   {
-    ledPin2.state = GPIO_HIGH;
+    ledPin2.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin2);
     blinkState[1] = 0;
     KeusTimerUtilRemoveTimer(&led2Timer);
   }
   else if (blinkState[1] == 4)
   {
-    ledPin2.state = GPIO_HIGH;
+    ledPin2.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin2);
     blinkState[1] = 5;
   }
@@ -245,7 +252,7 @@ void led2BlinkTimerCbk(uint8 timerId)
     led2BlinkTimerCounter++;
     if (led2BlinkTimerCounter >= 5)
     {
-      ledPin2.state = GPIO_LOW;
+      ledPin2.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin2);
       blinkState[1] = 4;
       led2BlinkTimerCounter = 0;
@@ -268,27 +275,27 @@ void led3BlinkTimerCbk(uint8 timerId)
 {
   if (blinkState[2] == 1)
   {
-    ledPin3.state = GPIO_HIGH;
+    ledPin3.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin3);
     blinkState[2] = 0;
     KeusTimerUtilRemoveTimer(&led3Timer);
   }
   else if (blinkState[2] == 2)
   {
-    ledPin3.state = GPIO_LOW;
+    ledPin3.state = LED_ON;
     KeusGPIOSetPinValue(&ledPin3);
     blinkState[2] = 3;
   }
   else if (blinkState[2] == 3)
   {
-    ledPin3.state = GPIO_HIGH;
+    ledPin3.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin3);
     blinkState[2] = 0;
     KeusTimerUtilRemoveTimer(&led3Timer);
   }
   else if (blinkState[2] == 4)
   {
-    ledPin3.state = GPIO_HIGH;
+    ledPin3.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin3);
     blinkState[2] = 5;
   }
@@ -298,7 +305,7 @@ void led3BlinkTimerCbk(uint8 timerId)
     led3BlinkTimerCounter++;
     if (led3BlinkTimerCounter >= 5)
     {
-      ledPin3.state = GPIO_LOW;
+      ledPin3.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin3);
       blinkState[2] = 4;
       led3BlinkTimerCounter = 0;
@@ -321,27 +328,27 @@ void led4BlinkTimerCbk(uint8 timerId)
 {
   if (blinkState[3] == 1)
   {
-    ledPin4.state = GPIO_HIGH;
+    ledPin4.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin4);
     blinkState[3] = 0;
     KeusTimerUtilRemoveTimer(&led4Timer);
   }
   else if (blinkState[3] == 2)
   {
-    ledPin4.state = GPIO_LOW;
+    ledPin4.state = LED_ON;
     KeusGPIOSetPinValue(&ledPin4);
     blinkState[3] = 3;
   }
   else if (blinkState[3] == 3)
   {
-    ledPin4.state = GPIO_HIGH;
+    ledPin4.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin4);
     blinkState[3] = 0;
     KeusTimerUtilRemoveTimer(&led4Timer);
   }
   else if (blinkState[3] == 4)
   {
-    ledPin4.state = GPIO_HIGH;
+    ledPin4.state = LED_OFF;
     KeusGPIOSetPinValue(&ledPin4);
     blinkState[3] = 5;
   }
@@ -351,7 +358,7 @@ void led4BlinkTimerCbk(uint8 timerId)
     led4BlinkTimerCounter++;
     if (led4BlinkTimerCounter >= 5)
     {
-      ledPin4.state = GPIO_LOW;
+      ledPin4.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin4);
       blinkState[3] = 4;
       led4BlinkTimerCounter = 0;
@@ -379,7 +386,8 @@ void initUart()
 }
 
 void uartRxCb(uint8 port, uint8 event)
-{
+{ 
+  //Example syntax: 28 03 01 03 01 29
   uint8 u8InChar;
 
   while (Hal_UART_RxBufLen(port))
@@ -389,12 +397,12 @@ void uartRxCb(uint8 port, uint8 event)
 
     // if (u8InChar == 's')
     // {
-    //   ledPin.state = GPIO_LOW;
+    //   ledPin.state = LED_ON;
     //   KeusGPIOSetPinValue(&ledPin);
     // }
     // else if (u8InChar == 'r')
     // {
-    //   ledPin.state = GPIO_HIGH;
+    //   ledPin.state = LED_OFF;
     //   KeusGPIOSetPinValue(&ledPin);
     // }
 
@@ -405,14 +413,14 @@ void uartRxCb(uint8 port, uint8 event)
     }
     else if (g0_endMessageIndex == 0 && g0_shouldSaveToBuffer)
     {
-      g0_endMessageIndex = u8InChar; //u8InChar - 1;
+      g0_endMessageIndex = u8InChar;
     }
     else if (u8InChar == KEUS_UART_MSG_TERMINATOR && g0_endMessageIndex == g0_bufferCounter)
     {
       g0_shouldSaveToBuffer = 0;
       g0_endMessageIndex = 0;
 
-      message_received = 1;
+      message_received = 1; //flag to process data
     }
     else if (g0_bufferCounter > g0_endMessageIndex)
     {
@@ -462,53 +470,56 @@ void KEUS_init()
   KeusGPIOInterruptEnable(&buttonPin4);
   KeusTimerUtilInit();
   KeusTimerUtilStartTimer();
-  initStatus = KeusThemeSwitchMiniMemoryInit();
-  readStatus = KeusThemeSwitchMiniReadConfigDataIntoMemory();
+  //initStatus = KeusThemeSwitchMiniMemoryInit();
+  osal_nv_item_init(SCN_ARR_NVIC_LOCATION, sizeof(arr_scene), (void *)arr_scene);
+  //readStatus = KeusThemeSwitchMiniReadConfigDataIntoMemory();
+  //restoring scenes back to memory at startup
+  osal_nv_read(SCN_ARR_NVIC_LOCATION, 0, sizeof(arr_scene), (void *)arr_scene);
   HalUARTWrite(HAL_UART_PORT_0, "KEUS INIT", (byte)osal_strlen("KEUS INIT"));
 }
 
-bool KeusThemeSwitchMiniMemoryInit(void)
-{
+// bool KeusThemeSwitchMiniMemoryInit(void)
+// {
 
-  uint8 res = osal_nv_item_init(0x10, sizeof(arr_scene), (void *)arr_scene);
+//   uint8 res = osal_nv_item_init(0x10, sizeof(arr_scene), (void *)arr_scene);
 
-  if (res == SUCCESS || res == NV_ITEM_UNINIT)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
+//   if (res == SUCCESS || res == NV_ITEM_UNINIT)
+//   {
+//     return true;
+//   }
+//   else
+//   {
+//     return false;
+//   }
+// }
 
-bool KeusThemeSwitchMiniWriteConfigDataIntoMemory(void)
-{
-  uint8 res = osal_nv_write(0x10, 0, sizeof(arr_scene), (void *)arr_scene);
+// bool KeusThemeSwitchMiniWriteConfigDataIntoMemory(void)
+// {
+//   uint8 res = osal_nv_write(0x10, 0, sizeof(arr_scene), (void *)arr_scene);
 
-  if (res == SUCCESS)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
+//   if (res == SUCCESS)
+//   {
+//     return true;
+//   }
+//   else
+//   {
+//     return false;
+//   }
+// }
 
-bool KeusThemeSwitchMiniReadConfigDataIntoMemory(void)
-{
-  uint8 res = osal_nv_read(0x10, 0, sizeof(arr_scene), (void *)arr_scene);
+// bool KeusThemeSwitchMiniReadConfigDataIntoMemory(void)
+// {
+//   uint8 res = osal_nv_read(0x10, 0, sizeof(arr_scene), (void *)arr_scene);
 
-  if (res == SUCCESS)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
+//   if (res == SUCCESS)
+//   {
+//     return true;
+//   }
+//   else
+//   {
+//     return false;
+//   }
+// }
 
 void KEUS_loop()
 {
@@ -516,10 +527,10 @@ void KEUS_loop()
   {
     HalUARTPoll();
     //KEUS_delayms(1000);
-    if (message_received)
+    if (message_received) //uart flag
     {
-
-      switch (g0_u8RecData[0])
+      //Example Msg array: 01 03 01
+      switch (g0_u8RecData[0]) //position of command in array
       {
       case 1:
         ledControl();
@@ -540,23 +551,23 @@ void KEUS_loop()
         KeusUartAckMsg(INVALID_DATA);
         break;
       }
-      message_received = 0;
+      message_received = 0; //clear uart flag
     }
   }
 }
 
 void groupControl(void)
 {
-  //28 06 \05 02 00 01 01 00\ 29
+  //Example array: 05 02 00 01 01 00 | Command,No of leds,Ledno,ledstate.....
   int i = 0;
-  uint8 ledPointer = 2;
-  int loopLength = g0_u8RecData[1];
+  uint8 ledPointer = 2; //position of ledno in uart data array
+  int loopLength = g0_u8RecData[1]; //position of no of leds in uart array
   for (i = 0; i < loopLength; i++)
   {
-    switch (g0_u8RecData[ledPointer])
+    switch (g0_u8RecData[ledPointer]) //led position; Each case for one led
     {
     case 0:
-      ledPin.state = !(g0_u8RecData[ledPointer + 1]);
+      ledPin.state = !(g0_u8RecData[ledPointer + 1]); //Led state position in uart array. ! for -ve logic
       KeusGPIOSetPinValue(&ledPin);
       blinkState[0] = 0;
       break;
@@ -576,23 +587,23 @@ void groupControl(void)
       blinkState[3] = 0;
       break;
     }
-    ledPointer += 2;
+    ledPointer += 2; //next led position
   }
 }
 
 void ledControl(void)
 {
-  //Example msg : 28 03 \01 03 01\ 29
+  //Example msg : 01 03 01
   uint8 ledState = 0;
-  uint8 ledNo = g0_u8RecData[1];
+  uint8 ledNo = g0_u8RecData[1]; //position of led in uart array
 
-  if ((g0_u8RecData[2] == 1) || (g0_u8RecData[2] == 0))
+  if ((g0_u8RecData[2] == 1) || (g0_u8RecData[2] == 0)) //for 1 and 0, change state
   {
 
     if (g0_u8RecData[2])
-      ledState = GPIO_LOW;
+      ledState = LED_ON;
     else
-      ledState = GPIO_HIGH;
+      ledState = LED_OFF;
     switch (ledNo)
     {
     case 0:
@@ -633,16 +644,16 @@ void ledControl(void)
     switch (ledNo)
     {
     case 0:
-      if (ledPin.state == 1)
-      { //off
-        ledPin.state = GPIO_LOW;
+      if (ledPin.state == LED_OFF) //check the previous state if it was off
+      { 
+        ledPin.state = LED_ON;
         KeusGPIOSetPinValue(&ledPin);
         blinkState[0] = 1;
         KeusTimerUtilAddTimer(&led1Timer);
       }
-      else
+      else //check the previous state if it was on
       {
-        ledPin.state = GPIO_HIGH; //
+        ledPin.state = LED_OFF;
         KeusGPIOSetPinValue(&ledPin);
         blinkState[0] = 2;
         KeusTimerUtilAddTimer(&led1Timer);
@@ -651,32 +662,32 @@ void ledControl(void)
       break;
 
     case 1:
-      if (ledPin2.state == 1)
-      { //off
-        ledPin2.state = GPIO_LOW;
+      if (ledPin2.state == LED_OFF)
+      {
+        ledPin2.state = LED_ON;
         KeusGPIOSetPinValue(&ledPin2);
         blinkState[1] = 1;
         KeusTimerUtilAddTimer(&led2Timer);
       }
       else
       {
-        ledPin2.state = GPIO_HIGH;
+        ledPin2.state = LED_OFF;
         KeusGPIOSetPinValue(&ledPin2);
         blinkState[1] = 2;
         KeusTimerUtilAddTimer(&led2Timer);
       }
       break;
     case 2:
-      if (ledPin3.state == 1)
+      if (ledPin3.state == LED_OFF)
       { //off
-        ledPin3.state = GPIO_LOW;
+        ledPin3.state = LED_ON;
         KeusGPIOSetPinValue(&ledPin3);
         blinkState[2] = 1;
         KeusTimerUtilAddTimer(&led3Timer);
       }
       else
       {
-        ledPin3.state = GPIO_HIGH;
+        ledPin3.state = LED_OFF;
         KeusGPIOSetPinValue(&ledPin3);
         blinkState[2] = 2;
         KeusTimerUtilAddTimer(&led3Timer);
@@ -684,16 +695,16 @@ void ledControl(void)
       break;
 
     case 3:
-      if (ledPin4.state == 1)
+      if (ledPin4.state == LED_OFF)
       { //off
-        ledPin4.state = GPIO_LOW;
+        ledPin4.state = LED_ON;
         KeusGPIOSetPinValue(&ledPin4);
         blinkState[3] = 1;
         KeusTimerUtilAddTimer(&led4Timer);
       }
       else
       {
-        ledPin4.state = GPIO_HIGH;
+        ledPin4.state = LED_OFF;
         KeusGPIOSetPinValue(&ledPin4);
         blinkState[3] = 2;
         KeusTimerUtilAddTimer(&led4Timer);
@@ -703,31 +714,31 @@ void ledControl(void)
   }
   else if (g0_u8RecData[2] == 3)
   {
-    //do blinking
+    //do continuous blinking
     switch (ledNo)
     {
     case 0:
-      ledPin.state = GPIO_LOW;
+      ledPin.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin);
       blinkState[0] = 4;
       KeusTimerUtilAddTimer(&led1Timer);
       break;
 
     case 1:
-      ledPin2.state = GPIO_LOW;
+      ledPin2.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin2);
       blinkState[1] = 4;
       KeusTimerUtilAddTimer(&led2Timer);
       break;
 
     case 2:
-      ledPin3.state = GPIO_LOW;
+      ledPin3.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin3);
       blinkState[2] = 4;
       KeusTimerUtilAddTimer(&led3Timer);
       break;
     case 3:
-      ledPin4.state = GPIO_LOW;
+      ledPin4.state = LED_ON;
       KeusGPIOSetPinValue(&ledPin4);
       blinkState[3] = 4;
       KeusTimerUtilAddTimer(&led4Timer);
@@ -740,48 +751,51 @@ void ledControl(void)
 
 void saveScene(void)
 {
-  //Example msg : 28 07
-  // 02 05 02 00 01 01 00 29
+  //Example msg : 02 05 02 00 01 01 00
 
   int i = 0;
-  uint8 ledPointer = 3;
-  uint8 freePosition = 11;
+  uint8 ledPointer = 3; //position of led in uart array
+  uint8 freePosition = MAX_SCENE_STORAGE; //if found the value would be <MAX_SCENE_STORAGE
   bool overWrite = 0;
-  uint8 overWritePosition = 11;
+  uint8 overWritePosition = MAX_SCENE_STORAGE;
 
   //do search for overWrite position & free position
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < MAX_SCENE_STORAGE; i++)
   {
     if (arr_scene[i].id == g0_u8RecData[1])
     {
       overWritePosition = i;
-      overWrite = 1;
+      overWrite = true;
       break;
     }
-    if ((arr_scene[i].id == 0) && (overWritePosition > 10) && (freePosition > 10))
+    //search for free position
+    if ((arr_scene[i].id == 0) && (overWritePosition > MAX_SCENE_STORAGE) && (freePosition > MAX_SCENE_STORAGE))
     {
       freePosition = i;
     }
   }
 
-  //considering overwrite/free
+  //considering overwrite or free position
+  //If overwrite position found make it free position
 
-  if (overWritePosition < 10)
+  if (overWritePosition < MAX_SCENE_STORAGE)
   {
     freePosition = overWritePosition;
+    //clearing included array
     arr_scene[freePosition].included[0] = 0;
     arr_scene[freePosition].included[1] = 0;
     arr_scene[freePosition].included[2] = 0;
     arr_scene[freePosition].included[3] = 0;
   }
 
-  if (freePosition < 10)
+  if (freePosition < MAX_SCENE_STORAGE)
   {
 
-    int loopLength = g0_u8RecData[2];
+    int loopLength = g0_u8RecData[2]; //no of leds present in the scene
 
     arr_scene[freePosition].id = g0_u8RecData[1];
-    for (i = 0; i < loopLength; i++)
+
+    for (i = 0; i < loopLength; i++) //filling led state and included array
     {
       switch (g0_u8RecData[ledPointer])
       {
@@ -815,7 +829,7 @@ void saveScene(void)
       KeusUartAckMsg(KEUS_UART_MSG_ACK);
 
     //nvic memory store
-    writeStatus = KeusThemeSwitchMiniWriteConfigDataIntoMemory();
+    osal_nv_write(SCN_ARR_NVIC_LOCATION, 0, sizeof(arr_scene), (void *)arr_scene);
   }
 
   else
@@ -826,10 +840,12 @@ void saveScene(void)
 }
 
 void executeScene(void)
-{ //example msg 28 02\ 03 01/ 29
+{ //example msg: 03 01 //execute scn id 1
   int i = 0;
-  uint8 foundScene = 12;
-  for (i = 0; i < 10; i++)
+  uint8 foundScene = MAX_SCENE_STORAGE;
+
+  //Search for the scn id
+  for (i = 0; i < MAX_SCENE_STORAGE; i++)
   {
     if (arr_scene[i].id == g0_u8RecData[1])
     {
@@ -837,12 +853,12 @@ void executeScene(void)
       break;
     }
   }
-  if (foundScene < 12)
+  if (foundScene < MAX_SCENE_STORAGE)
   {
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) //check included array
     {
-      if (arr_scene[foundScene].included[i])
+      if (arr_scene[foundScene].included[i]) //if an array element is 1, set the corresponding state
       {
         if (i == 0)
         {
@@ -878,10 +894,11 @@ void executeScene(void)
 
 void deleteScene(void)
 {
-  //28 02 04 01 29
+  //Example msg: 04 01
   int i = 0;
-  uint8 foundScene = 12;
-  for (i = 0; i < 10; i++)
+  uint8 foundScene = MAX_SCENE_STORAGE;
+  //search for the id
+  for (i = 0; i < MAX_SCENE_STORAGE; i++)
   {
     if (arr_scene[i].id == g0_u8RecData[1])
     {
@@ -891,7 +908,7 @@ void deleteScene(void)
   }
   if (foundScene < 12)
   {
-    //arr_scene[foundScene] = {{0}};
+    //clearing id and included array will effectively delete the scene
     arr_scene[foundScene].id = 0;
     arr_scene[foundScene].included[0] = 0;
     arr_scene[foundScene].included[1] = 0;
@@ -912,7 +929,7 @@ void KeusUartAckMsg(uint8 data)
   ackMsgData[dataLen] = KEUS_UART_MSG_INITIATOR;
   dataLen += 1;
 
-  ackMsgData[dataLen] = 0x01;
+  ackMsgData[dataLen] = 0x01; //one byte of ackdata
   dataLen += 1;
 
   ackMsgData[dataLen] = data;
@@ -1016,7 +1033,7 @@ HAL_ISR_FUNCTION(halKeusPort1Isr, P1INT_VECTOR)
 
   if (debounce_read)
   {
-    debounce_read = false;
+    debounce_read = false; //make sure it does not read untill the debounce timer CB sets it again
 
     if (P1IFG & BV(buttonPin.bit))
     {
