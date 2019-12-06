@@ -769,7 +769,7 @@ void saveScene(void)
       break;
     }
     //search for free position
-    if ((arr_scene[i].id == 0) && (overWritePosition > MAX_SCENE_STORAGE) && (freePosition > MAX_SCENE_STORAGE))
+    if ((arr_scene[i].id == 0) && (overWritePosition == MAX_SCENE_STORAGE) && (freePosition == MAX_SCENE_STORAGE))
     {
       freePosition = i;
     }
