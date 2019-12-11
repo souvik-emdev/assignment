@@ -1,0 +1,13 @@
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armproc.dll" 
+
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\..\..\..\Nuvoton Tools\Nu-Link_IAR\Nu-Link_IAR.dll" 
+
+"D:\VB_Shared\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\SampleCode\StdDriver\KEUS_Embedded_Switch\IAR\Release\Exe\GPIO_LED.out" 
+
+--plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\bin\armbat.dll" 
+
+--flash_loader="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\config\flashloader\Nuvoton\Mini58_APROM.board" 
+
+
+
+

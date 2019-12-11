@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<settings>
+    <Stack>
+        <FillEnabled>0</FillEnabled>
+        <OverflowWarningsEnabled>1</OverflowWarningsEnabled>
+        <WarningThreshold>90</WarningThreshold>
+        <SpWarningsEnabled>1</SpWarningsEnabled>
+        <WarnLogOnly>1</WarnLogOnly>
+        <UseTrigger>1</UseTrigger>
+        <TriggerName>main</TriggerName>
+        <LimitSize>0</LimitSize>
+        <ByteLimit>50</ByteLimit>
+    </Stack>
+    <DebugChecksum>
+        <Checksum>1686097185</Checksum>
+    </DebugChecksum>
+    <Exceptions>
+        <StopOnUncaught>_ 0</StopOnUncaught>
+        <StopOnThrow>_ 0</StopOnThrow>
+    </Exceptions>
+    <CallStack>
+        <ShowArgs>0</ShowArgs>
+    </CallStack>
+    <Disassembly>
+        <MixedMode>1</MixedMode>
+    </Disassembly>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\..\keusActions.c}.393.13" 0 0 0 0 "" 0 ""</Bp0>
+        <Bp1>_ "STD_CODE" "{$PROJ_DIR$\..\keusActions.c}.224.13" 0 0 0 0 "" 0 ""</Bp1>
+        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\..\keusActions.c}.302.17" 0 0 0 0 "" 0 ""</Bp2>
+        <Bp3>_ "STD_CODE" "{$PROJ_DIR$\..\keusActions.c}.28.9" 0 0 0 0 "" 0 ""</Bp3>
+        <Count>4</Count>
+    </Breakpoints>
+    <TermIOLog>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+    </TermIOLog>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category>_ 0</Category>
+    </LogFile>
+    <Aliases>
+        <A0>_ "Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\STDDRIVER\src\gpio.c" "D:\VB_Shared\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\StdDriver\src\gpio.c"</A0>
+        <A1>_ "Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\STDDRIVER\src\retarget.c" "D:\VB_Shared\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\StdDriver\src\retarget.c"</A1>
+        <A2>_ "Z:\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\STDDRIVER\src\timer.c" "D:\VB_Shared\Mini58 Resources\Mini58_Series_BSP_CMSIS_v3.01.000\Library\StdDriver\src\timer.c"</A2>
+        <Count>3</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
+</settings>
