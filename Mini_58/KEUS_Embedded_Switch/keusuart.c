@@ -50,6 +50,7 @@ void UART0_IRQHandler(void)
   }
 }
 
+
 void UART_tx(uint8_t arr[], uint8_t dataLen)
 {
   uint8_t sendBuffer[25], bufferLength = 0;
@@ -65,4 +66,13 @@ void UART_tx(uint8_t arr[], uint8_t dataLen)
   sendBuffer[bufferLength++] = KEUS_UART_MSG_TERMINATOR;
 
   UART_Write(UART0, sendBuffer, bufferLength);
+}
+
+void keus_uart_init (void)
+{
+  SYS->P1_MFP &= ~(SYS_MFP_P12_Msk | SYS_MFP_P13_Msk);
+  SYS->P1_MFP |= (SYS_MFP_P12_UART0_RXD | SYS_MFP_P13_UART0_TXD);
+  UART_Open(UART0, 115200);
+  UART_ENABLE_INT(UART0, UART_INTEN_RDAIEN_Msk);
+  NVIC_EnableIRQ(UART0_IRQn);
 }

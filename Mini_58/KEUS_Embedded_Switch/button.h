@@ -15,5 +15,6 @@ extern uint32_t keusAppEvents;
 void GPIO234_IRQHandler(void);
 void EINT1_IRQHandler(void);
 void EINT0_IRQHandler(void);
+void keus_button_init(void);
 
 #endif

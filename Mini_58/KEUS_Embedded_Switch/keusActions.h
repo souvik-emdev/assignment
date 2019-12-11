@@ -25,13 +25,18 @@
 #define TASK_CONFIG_SWITCH 1
 #define TASK_GET_SWITCH_STATE 2
 #define TASK_GET_CONFIG 3
-#define TASK_LED_CONTROL 4
+#define TASK_EXECUTE_SWITCH_STATE 4
 #define TASK_UART_ACK 5
 
 #define GETSWITCHSTATEREPLY 0x06
 #define GETCONFIGREPLY 0x07
 #define REPORTSWITCHSTATE 0x01
 
+#define KEUS_PWM_CHL0 0
+#define KEUS_PWM_CHL1 1
+#define KEUS_PWM_CHL2 2
+#define KEUS_PWM_CHL3 3
+#define KEUS_PWM_FREQUENCY 900
 
 #define MAX_UART_DATA_BUFFER 10
 #define UARTRETRYBUFFER 6
@@ -52,13 +57,12 @@ void getConfig(void);
 void TMR0_IRQHandler(void);
 void retryGettingAck(uint8_t arr[], uint8_t dataLen);
 void uartAck(void);
-void toggleLedTask(uint8_t ledID);
 long map(long x, long in_min, long in_max, long out_min, long out_max);
 void executeSwitchState(void);
 void setOutputPins(uint8_t pin, uint8_t mode);
 void setPwmDuty(uint8_t ledno, uint8_t duty);
-void implementSwitchState (uint8_t ledno);
 void updateTxnId(void);
+void keus_config_switch_init(void);
 
 struct led
 {

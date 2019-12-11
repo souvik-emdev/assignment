@@ -18,45 +18,17 @@
 void GPIO234_IRQHandler(void)
 {
     uint32_t reg;
-    // if (debounce_read)
-    // {
-    // if (P3->INTSRC & BIT2)
-    // {
-    //     keusAppEvents |= KEUS_BUTTON1;
-    // }
 
     if (P3->INTSRC & BIT1)
     {
         keusAppEvents |= KEUS_BUTTON2;
     }
-    /*ak: remove*/
-    else if (P3->INTSRC & BIT0)
+    if (P3->INTSRC & BIT0)
     {
         keusAppEvents |= KEUS_BUTTON3;
     }
-    //timer_int();
-    // TIMER_Open(TIMER0, TIMER_ONESHOT_MODE, 10);
-    // TIMER_Start(TIMER0);
-    // TIMER_EnableInt(TIMER0);
-    // NVIC_EnableIRQ(TMR0_IRQn);
-    // if (pwm_toggle)
-    // {
-    //   // Start pwm
-    //   PWM_ConfigOutputChannel(PWM, 0, 38000, 50);
-    //   // Enable output of all PWM channel 0
-    //   PWM_EnableOutput(PWM, 1);
-    //   PWM_Start(PWM, 0x1);
-    //   pwm_toggle = 0;
-    // }
-    // else
-    // {
-    //   PWM_Stop(PWM, 0x1);
-    //   pwm_toggle = 1;
-    // }
-    //}
     reg = P3->INTSRC;
     P3->INTSRC = reg;
-    //debounce_read = 0;
 }
 
 /**
@@ -83,4 +55,37 @@ void EINT1_IRQHandler(void)
     keusAppEvents |= KEUS_BUTTON4;
     // reg = P5->INTSRC;
     // P5->INTSRC = reg;
+}
+
+void keus_button_init(void)
+{
+     // Setup GPIO inputs and interrupt
+  SYS->P3_MFP &= ~SYS_MFP_P32_Msk;
+  SYS->P3_MFP |= SYS_MFP_P32_GPIO;
+  GPIO_SetMode(P3, BIT2, GPIO_MODE_INPUT);
+  GPIO_EnableInt(P3, 2, GPIO_INT_RISING);
+  NVIC_EnableIRQ(EINT0_IRQn);
+
+  GPIO_SetMode(P5, BIT2, GPIO_MODE_INPUT);
+  GPIO_EnableEINT1(P5, 2, GPIO_INT_RISING);
+  NVIC_EnableIRQ(EINT1_IRQn);
+
+  SYS->P3_MFP &= ~SYS_MFP_P31_Msk;
+  SYS->P3_MFP |= SYS_MFP_P31_GPIO;
+  GPIO_SetMode(P3, BIT1, GPIO_MODE_INPUT);
+  GPIO_EnableInt(P3, 1, GPIO_INT_RISING);
+  NVIC_EnableIRQ(GPIO234_IRQn);
+
+  SYS->P3_MFP &= ~SYS_MFP_P30_Msk;
+  SYS->P3_MFP |= SYS_MFP_P30_GPIO;
+  GPIO_SetMode(P3, BIT0, GPIO_MODE_INPUT);
+  GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
+  //NVIC_EnableIRQ(GPIO234_IRQn);
+
+  /* Enable interrupt de-bounce function and select de-bounce sampling cycle time */
+  GPIO_SET_DEBOUNCE_TIME(GPIO_DBCTL_DBCLKSRC_HCLK, GPIO_DBCTL_DBCLKSEL_256); //ak: find actual debounce value
+  GPIO_ENABLE_DEBOUNCE(P3, BIT2);
+  GPIO_ENABLE_DEBOUNCE(P3, BIT1);
+  GPIO_ENABLE_DEBOUNCE(P3, BIT0);
+  GPIO_ENABLE_DEBOUNCE(P5, BIT4);
 }

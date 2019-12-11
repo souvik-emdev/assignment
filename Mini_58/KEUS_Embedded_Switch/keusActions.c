@@ -6,29 +6,48 @@
 #include "Mini58Series.h"
 #include "keusActions.h"
 
+/**
+ * @brief       Mapping values to a different range
+ *
+ * @param       value to map, min value of input
+ *              range, max value of input range, min value of o/p range
+ *              max value of o/p range
+ *
+ * @return      mapped value
+ *
+ * @details     Required for mapping range 0-255 to 0-100 
+ */
 long map(long x, long in_min, long in_max, long out_min, long out_max)
 {
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+/**
+ * @brief       Set pwm duty
+ *
+ * @param       ledID and required duty cycle
+ *
+ * @return      Nothing
+ *
+ * @details     Sets pwm duty cycle for dimming and fan type output
+ */
 void setPwmDuty(uint8_t ledno, uint8_t duty)
 {
     int finalDuty = map(duty, 0, 255, 0, 100);
-    finalDuty = 100 - finalDuty;
-    //printf("duty is: %d", finalDuty);
-    switch (ledno)
+    finalDuty = 100 - finalDuty; //As board led works in -ve logic
+    switch (ledno)               //TODO: replace with cmr to remove redundant calculations
     {
     case LEDID1:
-        PWM_ConfigOutputChannel(PWM, 0, 900, finalDuty);
+        PWM_ConfigOutputChannel(PWM, KEUS_PWM_CHL0, KEUS_PWM_FREQUENCY, finalDuty);
         break;
     case LEDID2:
-        PWM_ConfigOutputChannel(PWM, 1, 900, finalDuty);
+        PWM_ConfigOutputChannel(PWM, KEUS_PWM_CHL1, KEUS_PWM_FREQUENCY, finalDuty);
         break;
     case LEDID3:
-        PWM_ConfigOutputChannel(PWM, 2, 900, finalDuty);
+        PWM_ConfigOutputChannel(PWM, KEUS_PWM_CHL2, KEUS_PWM_FREQUENCY, finalDuty);
         break;
     case LEDID4:
-        PWM_ConfigOutputChannel(PWM, 3, 900, finalDuty);
+        PWM_ConfigOutputChannel(PWM, KEUS_PWM_CHL3, KEUS_PWM_FREQUENCY, finalDuty);
         break;
 
     default:
@@ -36,6 +55,13 @@ void setPwmDuty(uint8_t ledno, uint8_t duty)
     }
 }
 
+/**
+ * @brief       Set PINs as GPIO Output/PWM output
+ *
+ * @param       Target pin and output type required
+ *
+ * @return      Nothing
+ */
 void setOutputPins(uint8_t pin, uint8_t config)
 {
     switch (pin)
@@ -104,6 +130,16 @@ void setOutputPins(uint8_t pin, uint8_t config)
     }
 }
 
+/**
+ * @brief       Toggle output state on buttonpress
+ *
+ * @param       ledID
+ *
+ * @return      Nothing
+ *
+ * @details     Whenever a button is pressed it toggles the output state and
+ *              sends the info via UART
+ */
 void toggleLed(uint8_t ledno)
 {
     uint8_t sendReply[5], datalen = 0;
@@ -114,48 +150,6 @@ void toggleLed(uint8_t ledno)
     if (ledno == LEDID1 && arr_led[0].config)
     {
 
-        toggleLedTask(LEDID1);
-        sendReply[datalen++] = LEDID1;
-        sendReply[datalen++] = arr_led[0].state;
-        UART_tx(sendReply, datalen);
-        retryGettingAck(sendReply, datalen);
-    }
-
-    if (ledno == LEDID2 && arr_led[1].config)
-    {
-        toggleLedTask(LEDID2);
-        sendReply[datalen++] = LEDID2;
-        sendReply[datalen++] = arr_led[1].state;
-        UART_tx(sendReply, datalen);
-        retryGettingAck(sendReply, datalen);
-    }
-
-    if (ledno == LEDID3 && arr_led[2].config)
-    {
-        toggleLedTask(LEDID3);
-        sendReply[datalen++] = LEDID3;
-        sendReply[datalen++] = arr_led[2].state;
-        UART_tx(sendReply, datalen);
-        retryGettingAck(sendReply, datalen);
-    }
-    if (ledno == LEDID4 && arr_led[3].config)
-    {
-        toggleLedTask(LEDID4);
-        sendReply[datalen++] = LEDID4;
-        sendReply[datalen++] = arr_led[3].state;
-        UART_tx(sendReply, datalen);
-        retryGettingAck(sendReply, datalen);
-    }
-    // UART_tx(sendReply, datalen);
-    // retryGettingAck(sendReply, datalen);
-}
-
-//ak: implement in toggleLed
-void toggleLedTask(uint8_t ledID)
-{
-    switch (ledID)
-    {
-    case LEDID1:
         if (arr_led[0].state < 1)
         {
             arr_led[0].state = 255;
@@ -180,8 +174,14 @@ void toggleLedTask(uint8_t ledID)
                 setPwmDuty(LEDID1, arr_led[0].state);
             }
         }
-        break;
-    case LEDID2:
+        sendReply[datalen++] = LEDID1;
+        sendReply[datalen++] = arr_led[0].state;
+        UART_tx(sendReply, datalen);
+        retryGettingAck(sendReply, datalen);
+    }
+
+    else if (ledno == LEDID2 && arr_led[1].config)
+    {
         if (arr_led[1].state < 1)
         {
             arr_led[1].state = 255;
@@ -206,8 +206,14 @@ void toggleLedTask(uint8_t ledID)
                 setPwmDuty(LEDID2, arr_led[1].state);
             }
         }
-        break;
-    case LEDID3:
+        sendReply[datalen++] = LEDID2;
+        sendReply[datalen++] = arr_led[1].state;
+        UART_tx(sendReply, datalen);
+        retryGettingAck(sendReply, datalen);
+    }
+
+    else if (ledno == LEDID3 && arr_led[2].config)
+    {
         if (arr_led[2].state < 1)
         {
             arr_led[2].state = 255;
@@ -232,8 +238,13 @@ void toggleLedTask(uint8_t ledID)
                 setPwmDuty(LEDID3, arr_led[2].state);
             }
         }
-        break;
-    case LEDID4:
+        sendReply[datalen++] = LEDID3;
+        sendReply[datalen++] = arr_led[2].state;
+        UART_tx(sendReply, datalen);
+        retryGettingAck(sendReply, datalen);
+    }
+    else if (ledno == LEDID4 && arr_led[3].config)
+    {
         if (arr_led[3].state < 1)
         {
             arr_led[3].state = 255;
@@ -258,13 +269,21 @@ void toggleLedTask(uint8_t ledID)
                 setPwmDuty(LEDID4, arr_led[3].state);
             }
         }
-        break;
-
-    default:
-        break;
+        sendReply[datalen++] = LEDID4;
+        sendReply[datalen++] = arr_led[3].state;
+        UART_tx(sendReply, datalen);
+        retryGettingAck(sendReply, datalen);
     }
 }
 
+/**
+ * @brief       Sets the output as state received from UART
+ *
+ * @param       Nothing
+ *
+ * @return      Nothing
+ *
+ */
 void executeSwitchState(void)
 {
     //executeSwitchState: 28<size><commandid 4><txn><noof switch><id><state>..<29>
@@ -280,52 +299,87 @@ void executeSwitchState(void)
         switch (switchId)
         {
         case LEDID1:
-            if (arr_led[0].config == 1)
+            if (arr_led[0].config == CONFIGNORMAL)
             {
-                if (state > 1)  //ak: state > 0
+                if (state > 0)
+                {
                     arr_led[0].state = 255;
+                    LED1 = LED_HIGH;
+                }
                 else
+                {
                     arr_led[0].state = 0;
+                    LED1 = LED_LOW;
+                }
             }
-            else
+            else //for config other than normal: dim & fan
+            {
                 arr_led[0].state = state;
-            implementSwitchState(LEDID1);
+                setPwmDuty(LEDID1, arr_led[0].state);
+            }
+
             break;
         case LEDID2:
-            if (arr_led[1].config == 1)
+            if (arr_led[1].config == CONFIGNORMAL)
             {
-                if (state > 1)
+                if (state > 0)
+                {
                     arr_led[1].state = 255;
+                    LED2 = LED_HIGH;
+                }
                 else
+                {
                     arr_led[1].state = 0;
+                    LED2 = LED_LOW;
+                }
             }
             else
+            {
                 arr_led[1].state = state;
-            implementSwitchState(LEDID2);
+                setPwmDuty(LEDID2, arr_led[1].state);
+            }
+
             break;
         case LEDID3:
-            if (arr_led[2].config == 1)
+            if (arr_led[2].config == CONFIGNORMAL)
             {
-                if (state > 1)
+                if (state > 0)
+                {
                     arr_led[2].state = 255;
+                    LED3 = LED_HIGH;
+                }
                 else
+                {
                     arr_led[2].state = 0;
+                    LED3 = LED_LOW;
+                }
             }
             else
+            {
                 arr_led[2].state = state;
-            implementSwitchState(LEDID3);
+                setPwmDuty(LEDID3, arr_led[2].state);
+            }
+
             break;
         case LEDID4:
             if (arr_led[3].config == 1)
             {
-                if (state > 1)
+                if (state > 0)
+                {
                     arr_led[3].state = 255;
+                    LED4 = LED_HIGH;
+                }
                 else
+                {
                     arr_led[3].state = 0;
+                    LED4 = LED_LOW;
+                }
             }
             else
+            {
                 arr_led[3].state = state;
-            implementSwitchState(LEDID4);
+                setPwmDuty(LEDID4, arr_led[3].state);
+            }
             break;
         default:
             break;
@@ -339,93 +393,23 @@ void executeSwitchState(void)
     UART_tx(sendReply, datalen);
 }
 
-//ak: try to implement this in execute switch state
-void implementSwitchState(uint8_t ledno)
-{
-    switch (ledno)
-    {
-    case LEDID1:
-        if (arr_led[0].config == 1)
-        {
-            if (arr_led[0].state > 0)
-            {
-                LED1 = LED_HIGH;
-            }
-            else
-            {
-                LED1 = LED_LOW;
-            }
-        }
-        else
-        {
-            setPwmDuty(LEDID1, arr_led[0].state);
-        }
-        break;
-    case LEDID2:
-        if (arr_led[1].config == 1)
-        {
-            if (arr_led[1].state > 0)
-            {
-                LED2 = LED_HIGH;
-            }
-            else
-            {
-                LED2 = LED_LOW;
-            }
-        }
-        else
-        {
-            setPwmDuty(LEDID2, arr_led[1].state);
-        }
-        break;
-    case LEDID3:
-        if (arr_led[2].config == 1)
-        {
-            if (arr_led[2].state > 0)
-            {
-                LED3 = LED_HIGH;
-            }
-            else
-            {
-                LED3 = LED_LOW;
-            }
-        }
-        else
-        {
-            setPwmDuty(LEDID3, arr_led[2].state);
-        }
-        break;
-    case LEDID4:
-        if (arr_led[3].config == 1)
-        {
-            if (arr_led[3].state > 0)
-            {
-                LED4 = LED_HIGH;
-            }
-            else
-            {
-                LED4 = LED_LOW;
-            }
-        }
-        else
-        {
-            setPwmDuty(LEDID4, arr_led[3].state);
-        }
-        break;
-
-    default:
-        break;
-    }
-}
-
+/**
+ * @brief       Sets timer to send the switch press information message periodically
+ *              until ack received 
+ *
+ * @param       Message, length of the message
+ *
+ * @return      Nothing
+ *
+ */
 void retryGettingAck(uint8_t arr[], uint8_t dataLen)
 {
     for (int i = 0; i < dataLen; i++)
     {
-        retryBuffer[i] = arr[i];
+        retryBuffer[i] = arr[i]; //copies to seperate buffer
     }
 
-    retryDataLen = dataLen;
+    retryDataLen = dataLen; // copies to seperate length var
 
     // Set timer 0 working 1Hz in periodic mode
     TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 1);
@@ -438,6 +422,8 @@ void retryGettingAck(uint8_t arr[], uint8_t dataLen)
     TIMER_Start(TIMER0);
 }
 
+
+//Sends the switch press info message via uart
 void TMR0_IRQHandler(void)
 {
     UART_tx(retryBuffer, retryDataLen);
@@ -446,6 +432,8 @@ void TMR0_IRQHandler(void)
     TIMER_ClearIntFlag(TIMER0);
 }
 
+//copies the uart received data into seperate buffer and call taskHandler to perform task
+//Extracts commandID and txnID
 void parseUart(void)
 {
     int i = 0, j = 2;
@@ -460,6 +448,7 @@ void parseUart(void)
     taskHandler();
 }
 
+//Calls the required function as needed by UART received message
 void taskHandler(void)
 {
     switch (commandId)
@@ -474,7 +463,7 @@ void taskHandler(void)
     case TASK_GET_CONFIG:
         getConfig();
         break;
-    case TASK_LED_CONTROL:
+    case TASK_EXECUTE_SWITCH_STATE:
         executeSwitchState();
         break;
 
@@ -487,6 +476,20 @@ void taskHandler(void)
     }
 }
 
+//At start up configures all switches as normal off/on type
+void keus_config_switch_init(void)
+{
+    setOutputPins(LEDID1, CONFIGNORMAL);
+    setOutputPins(LEDID2, CONFIGNORMAL);
+    setOutputPins(LEDID3, CONFIGNORMAL);
+    setOutputPins(LEDID4, CONFIGNORMAL);
+    arr_led[0].config = CONFIGNORMAL;
+    arr_led[1].config = CONFIGNORMAL;
+    arr_led[2].config = CONFIGNORMAL;
+    arr_led[3].config = CONFIGNORMAL;
+}
+
+//Sets output state as on-off/dimming/fan
 void configSwitch(void)
 {
     //Example msg: <no of switch><switchid><config><switchid><config>....
@@ -531,6 +534,7 @@ void configSwitch(void)
     UART_tx(sendReply, datalen);
 }
 
+//Sends all switch state info via uart
 void getSwitchState(void)
 {
     //Example msg: <replyID><txnID><no of switch><switchid><state><switchid><state>....
@@ -556,6 +560,7 @@ void getSwitchState(void)
     UART_tx(sendState, datalen);
 }
 
+//Sends all switch config info via uart
 void getConfig(void)
 {
     //Example msg: <replyID><txnID><no of switch><switchid><config><switchid><config>....
@@ -563,13 +568,9 @@ void getConfig(void)
     //28 02 03 04 29
 
     uint8_t sendState[15], position = 3, datalen = 0;
-    //ak: use datalen for array index 
-    sendState[0] = GETCONFIGREPLY;
-    datalen++;
-    sendState[1] = txnId;
-    datalen++;
-    sendState[2] = MAX_NUMBER_LED;
-    datalen++;
+    sendState[datalen++] = GETCONFIGREPLY;
+    sendState[datalen++] = txnId;
+    sendState[datalen++] = MAX_NUMBER_LED;
     for (int i = 0; i < MAX_NUMBER_LED; i++)
     {
         sendState[position] = i + 1; //switch ID
@@ -582,6 +583,7 @@ void getConfig(void)
     UART_tx(sendState, datalen);
 }
 
+//Stopes the timer which sends switch press info periodically on getting ack
 void uartAck(void)
 {
     if (txnId == retryBuffer[1])
