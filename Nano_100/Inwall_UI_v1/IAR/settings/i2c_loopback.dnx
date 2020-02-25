@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<settings>
+    <DebugChecksum>
+        <Checksum>1912696004</Checksum>
+    </DebugChecksum>
+    <Exceptions>
+        <StopOnUncaught>_ 0</StopOnUncaught>
+        <StopOnThrow>_ 0</StopOnThrow>
+    </Exceptions>
+    <Stack>
+        <FillEnabled>0</FillEnabled>
+        <OverflowWarningsEnabled>1</OverflowWarningsEnabled>
+        <WarningThreshold>90</WarningThreshold>
+        <SpWarningsEnabled>1</SpWarningsEnabled>
+        <WarnLogOnly>1</WarnLogOnly>
+        <UseTrigger>1</UseTrigger>
+        <TriggerName>main</TriggerName>
+        <LimitSize>0</LimitSize>
+        <ByteLimit>50</ByteLimit>
+    </Stack>
+    <CallStack>
+        <ShowArgs>0</ShowArgs>
+    </CallStack>
+    <Disassembly>
+        <MixedMode>1</MixedMode>
+    </Disassembly>
+    <array_types>
+        <Fmt0>uint8_t[2]	4	0</Fmt0>
+    </array_types>
+    <watch_formats>
+        <Fmt0>{W}1:g_u8DeviceAddr	4	0</Fmt0>
+        <Fmt1>{W}1:g_u8MasterDataLen	3	0</Fmt1>
+        <Fmt2>{W}1:g_u8RequiredDataLength	3	0</Fmt2>
+        <Fmt3>{W}1:inwallData.fanLevel	3	0</Fmt3>
+        <Fmt4>{W}1:u32Status	4	0</Fmt4>
+    </watch_formats>
+    <TermIOLog>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+    </TermIOLog>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category>_ 0</Category>
+    </LogFile>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints>
+        <Bp0>_ "STD_CODE" "{$PROJ_DIR$\..\interfacergbled.c}.325.1" 0 0 0 0 "" 0 ""</Bp0>
+        <Bp1>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.115.5" 0 0 0 0 "" 0 ""</Bp1>
+        <Bp2>_ "STD_CODE" "{$PROJ_DIR$\..\interfacergbled.c}.325.1" 0 0 0 0 "" 0 ""</Bp2>
+        <Bp3>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.108.5" 0 0 0 0 "" 0 ""</Bp3>
+        <Bp4>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.47.9" 0 0 0 0 "" 0 ""</Bp4>
+        <Bp5>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.52.9" 0 0 0 0 "" 0 ""</Bp5>
+        <Bp6>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.57.9" 0 0 0 0 "" 0 ""</Bp6>
+        <Bp7>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.61.9" 0 0 0 0 "" 0 ""</Bp7>
+        <Bp8>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.75.9" 0 0 0 0 "" 0 ""</Bp8>
+        <Bp9>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.25.5" 0 0 0 0 "" 0 ""</Bp9>
+        <Bp10>_ "STD_CODE" "{$PROJ_DIR$\..\inwallI2C.c}.111.5" 0 0 0 0 "" 0 ""</Bp10>
+        <Bp11>_ "STD_CODE" "{$PROJ_DIR$\..\main.c}.170.5" 0 0 0 0 "" 0 ""</Bp11>
+        <Bp12>_ "STD_CODE" "{$PROJ_DIR$\..\main.c}.226.5" 0 0 0 0 "" 0 ""</Bp12>
+        <Bp13>_ "STD_CODE" "{$PROJ_DIR$\..\main.c}.32.9" 0 0 0 0 "" 0 ""</Bp13>
+        <Bp14>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.162.9" 0 0 0 0 "" 0 ""</Bp14>
+        <Bp15>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.182.9" 0 0 0 0 "" 0 ""</Bp15>
+        <Bp16>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.190.9" 0 0 0 0 "" 0 ""</Bp16>
+        <Bp17>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.196.9" 0 0 0 0 "" 0 ""</Bp17>
+        <Bp18>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.201.9" 0 0 0 0 "" 0 ""</Bp18>
+        <Bp19>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.208.9" 0 0 0 0 "" 0 ""</Bp19>
+        <Bp20>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.212.9" 0 0 0 0 "" 0 ""</Bp20>
+        <Bp21>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.218.9" 0 0 0 0 "" 0 ""</Bp21>
+        <Bp22>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.226.9" 0 0 0 0 "" 0 ""</Bp22>
+        <Bp23>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.234.9" 0 0 0 0 "" 0 ""</Bp23>
+        <Bp24>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.240.9" 0 0 0 0 "" 0 ""</Bp24>
+        <Bp25>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.245.9" 0 0 0 0 "" 0 ""</Bp25>
+        <Bp26>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.93.9" 0 0 0 0 "" 0 ""</Bp26>
+        <Bp27>_ "STD_CODE" "{$PROJ_DIR$\..\main.c}.226.5" 0 0 0 0 "" 0 ""</Bp27>
+        <Bp28>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.168.9" 0 0 0 0 "" 0 ""</Bp28>
+        <Bp29>_ "STD_CODE" "{D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\Inwall startup animation}.94.5" 0 0 0 0 "" 0 ""</Bp29>
+        <Bp30>_ "STD_CODE" "{$PROJ_DIR$\..\inwallactions.c}.61.5" 0 0 0 0 "" 0 ""</Bp30>
+        <Bp31>_ "STD_CODE" "{$PROJ_DIR$\..\main.c}.55.13" 0 0 0 0 "" 0 ""</Bp31>
+        <Bp32>_ "STD_CODE" "{$PROJ_DIR$\..\inwallactions.c}.178.5" 0 0 0 0 "" 0 ""</Bp32>
+        <Bp33>_ "STD_CODE" "{$PROJ_DIR$\..\inwallactions.c}.183.5" 0 0 0 0 "" 0 ""</Bp33>
+        <Count>34</Count>
+    </Breakpoints>
+    <Aliases>
+        <A0>_ "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\Device\Nuvoton\Nano100Series\Source\system_Nano100Series.c" ""</A0>
+        <A1>_ "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\clk.c" "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\clk.c"</A1>
+        <A2>_ "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\gpio.c" ""</A2>
+        <A3>_ "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\i2c.c" ""</A3>
+        <A4>_ "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\retarget.c" ""</A4>
+        <A5>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\clk.c" ""</A5>
+        <A6>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\gpio.c" ""</A6>
+        <A7>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\i2c.c" ""</A7>
+        <A8>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\retarget.c" ""</A8>
+        <A9>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\timer.c" ""</A9>
+        <A10>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\Library\StdDriver\src\uart.c" ""</A10>
+        <A11>_ "D:\VB_Shared\Nano101 Resources\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\I2C_Loopback - Copy\main.c" "C:\Users\Souvik\Desktop\InWall\Nano100A_Series_BSP_CMSIS_v3.02.001\SampleCode\StdDriver\I2C_Loopback - Copy\main.c"</A11>
+        <Count>12</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
+</settings>
