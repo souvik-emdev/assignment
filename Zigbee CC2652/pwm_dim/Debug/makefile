@@ -147,7 +147,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@$(MAKE) --no-print-directory -Onone "pwm_dim.out"
 
 dependents:
-	-cd D:/VB_Shared/Zigbee_CC2652_Resources/workspace_v9/tirtos_builds_CC26X2R1_LAUNCHXL_release_ccs/Debug && $(MAKE) clean all
+	-cd D:/VB_Shared/Zigbee_CC2652_Resources/workspace_v9/tirtos_builds_CC26X2R1_LAUNCHXL_release_ccs/Debug && $(MAKE) all
 
 # Tool invocations
 pwm_dim.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) D:/VB_Shared/Zigbee_CC2652_Resources/workspace_v9/tirtos_builds_CC26X2R1_LAUNCHXL_release_ccs/Debug/tirtos_builds_CC26X2R1_LAUNCHXL_release_ccs.lib

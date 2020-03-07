@@ -66,6 +66,7 @@ static void readCallback(UART_Handle handle, void *rxBuf, size_t size)
         else if (((uint8_t *)rxBuf)[2] == 0x2)
         {
             expectedDutyCalculator(((uint8_t *)rxBuf)[3]);
+            lightState = expectedDuty;
         }
         else
         {
@@ -100,23 +101,25 @@ void timerCallbackFunction(Timer_Handle timerHandle)
         timerCounter += dutySteps;
         currentDuty = map(timerCounter, 0, fadeTime, 0, 255);
 
-        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 255);
-
+        //dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 255);
+        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * currentDuty) / 256); //linear
         PWM_setDuty(pwm1, dutyValue);
 
-        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve2[currentDuty]) / 255);
-
+        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 256);
+        //dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * currentDuty) / 255);
         PWM_setDuty(pwm2, dutyValue);
     }
     else if (expectedDuty < currentDuty)
     {
         timerCounter -= dutySteps;
         currentDuty = map(timerCounter, 0, fadeTime, 0, 255);
-        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 255);
+        //dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 255);
+        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * currentDuty) / 256);
 
         PWM_setDuty(pwm1, dutyValue);
 
-        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve2[currentDuty]) / 255);
+        dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * arr_currectionCurve[currentDuty]) / 256);
+        //dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * currentDuty) / 255);
 
         PWM_setDuty(pwm2, dutyValue);
     }
@@ -125,19 +128,25 @@ void timerCallbackFunction(Timer_Handle timerHandle)
         //timerCounter = 0;
         if (lightState == 0x0)
         {
-            dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * 0) / 255);
+            dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * 0) / 256);
 
             PWM_setDuty(pwm1, dutyValue);
 
             PWM_setDuty(pwm2, dutyValue);
+
+            // expectedDutyCalculator(0xFF);
+            // lightState = 0xFF;
         }
         else if (lightState == 0xFF)
         {
-            dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * 255) / 255);
+            dutyValue = (uint32_t)(((uint64_t)PWM_DUTY_FRACTION_MAX * 255) / 256);
 
             PWM_setDuty(pwm1, dutyValue);
 
             PWM_setDuty(pwm2, dutyValue);
+
+            // expectedDuty = 0;
+            // lightState = 0;
         }
     }
 }
@@ -157,6 +166,8 @@ void gpioButtonFxn0(uint_least8_t index)
     {
         expectedDutyCalculator(0xFF);
         lightState = 0xFF;
+        // expectedDutyCalculator(216);
+        // lightState = 216;
     }
 }
 
@@ -193,7 +204,7 @@ void *mainThread(void *arg0)
     pwmParams.dutyUnits = PWM_DUTY_FRACTION;
     pwmParams.dutyValue = 0;
     pwmParams.periodUnits = PWM_PERIOD_HZ;
-    pwmParams.periodValue = 1000;
+    pwmParams.periodValue = 5000;
     pwm1 = PWM_open(CONFIG_PWM_0, &pwmParams);
     if (pwm1 == NULL)
     {
@@ -245,6 +256,7 @@ void *mainThread(void *arg0)
     Timer_Params_init(&timerParams);
     timerParams.periodUnits = Timer_PERIOD_US;
     timerParams.period = 10000;
+    //timerParams.period = 5000;
     timerParams.timerMode = Timer_CONTINUOUS_CALLBACK;
     timerParams.timerCallback = timerCallbackFunction;
 
